@@ -12,7 +12,6 @@
   "meta": {
     "_note": "Administrative info. Not displayed publicly but used for ordering and filtering.",
     "slug":            "REQUIRED | URL-safe project ID, lowercase-hyphenated. e.g. 'cloud-clips'",
-    "order":           "REQUIRED | Integer. Controls display order on portfolio. 1 = first.",
     "status":          "REQUIRED | One of: 'live' | 'in-progress' | 'archived'",
     "completed_month": "REQUIRED | e.g. 'Feb 2026'",
     "duration_weeks":  "RECOMMENDED | How long did it take? e.g. 5",

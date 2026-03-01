@@ -11,7 +11,12 @@ export function renderProjects() {
     .sort((a, b) => {
       const statusRank = s => s === 'live' ? 0 : 1
       const byStatus = statusRank(a.meta.status) - statusRank(b.meta.status)
-      return byStatus !== 0 ? byStatus : (a.meta?.order ?? 99) - (b.meta?.order ?? 99)
+      if (byStatus !== 0) return byStatus
+      // Both live — sort by completed_month descending (most recent first)
+      const months = { Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11 }
+      const parseMonth = str => { const [m, y] = (str ?? '').split(' '); return months[m] !== undefined ? new Date(+y, months[m]) : null }
+      const da = parseMonth(a.meta.completed_month), db = parseMonth(b.meta.completed_month)
+      return (da && db) ? db - da : 0
     })
 
   const wrapper = document.createElement('section')

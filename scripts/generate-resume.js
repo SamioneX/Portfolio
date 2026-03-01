@@ -16,8 +16,10 @@ const root = resolve(__dirname, '..')
 const site = JSON.parse(readFileSync(resolve(root, 'src/data/site.json'), 'utf8'))
 
 // Load all project JSONs, skip _* files, filter to live/in-progress.
-// Sort: live projects first, then in-progress; within each group sort by meta.order.
+// Sort: live projects first (by completed_month descending), then in-progress.
 const dataDir = resolve(root, 'src/data')
+const _months = { Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11 }
+const parseMonth = str => { const [m, y] = (str ?? '').split(' '); return _months[m] !== undefined ? new Date(+y, _months[m]) : null }
 const statusRank = s => s === 'live' ? 0 : 1
 const projects = readdirSync(dataDir)
   .filter(f => f.endsWith('.json') && !f.startsWith('_') && f !== 'site.json')
@@ -25,7 +27,9 @@ const projects = readdirSync(dataDir)
   .filter(p => p?.meta?.status === 'live' || p?.meta?.status === 'in-progress')
   .sort((a, b) => {
     const byStatus = statusRank(a.meta.status) - statusRank(b.meta.status)
-    return byStatus !== 0 ? byStatus : (a.meta?.order ?? 99) - (b.meta?.order ?? 99)
+    if (byStatus !== 0) return byStatus
+    const da = parseMonth(a.meta.completed_month), db = parseMonth(b.meta.completed_month)
+    return (da && db) ? db - da : 0
   })
 
 const topProjects = projects.slice(0, 3)
