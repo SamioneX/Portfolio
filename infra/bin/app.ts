@@ -10,7 +10,7 @@ import * as cdk from 'aws-cdk-lib'
 import { CertStack } from '../lib/cert-stack'
 import { SiteStack } from '../lib/site-stack'
 
-const githubRepo = process.env.GITHUB_REPO ?? 'SamioneX/portfolio'
+const githubRepo = process.env.GITHUB_REPO ?? 'SamioneX/Portfolio'
 
 const app = new cdk.App()
 
