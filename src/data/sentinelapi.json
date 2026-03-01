@@ -31,11 +31,11 @@
 
   "highlights": {
     "items": [
-      "Lambda authorizer with inline anomaly scoring — every API request is scored against a lightweight model loaded from S3, adding under 15ms of latency while blocking high-confidence threats before they reach the origin",
-      "Kinesis Data Streams for real-time traffic ingestion — request metadata (IP, endpoint, latency, status) is streamed to Kinesis at ingest time, decoupling collection from analysis",
-      "SageMaker endpoint for ML inference — an Isolation Forest model trained on historical traffic identifies statistical outliers; the endpoint is called asynchronously from a Kinesis consumer Lambda",
-      "Automated WAF rule management — confirmed threat IPs are automatically added to a WAF IP set via Lambda, blocking them at the CloudFront edge with no manual intervention",
-      "SNS alerting with severity tiering — low-confidence anomalies are logged to DynamoDB for review; high-confidence threats trigger immediate SNS alerts to an ops topic"
+      "Every incoming API request is scored for anomalies before it reaches the origin — a Lambda authorizer loads a lightweight model from a Lambda layer and runs inline inference, adding under 15ms to the request path while blocking high-confidence threats at the gateway",
+      "Request traffic is streamed continuously for asynchronous ML analysis — metadata for every request (IP, endpoint, latency, status code) is published to Kinesis Data Streams at ingest time, decoupling collection from inference so high-traffic bursts never stall the request path",
+      "Novel attack patterns are detected without predefined rules — a SageMaker-hosted Isolation Forest model trained on historical traffic baselines identifies statistical outliers in the Kinesis stream; new attack signatures are flagged even if they've never been seen before",
+      "Confirmed threat IPs are automatically blocked at the CloudFront edge — a Lambda consumer writes high-confidence anomalies to a WAF IP set on a fixed batching schedule, cutting off malicious traffic before it reaches API Gateway with no manual intervention",
+      "Alerts are severity-tiered to keep operator noise low — low-confidence anomalies are written to DynamoDB for scheduled review; high-confidence threats immediately trigger SNS alerts to an ops topic so on-call engineers are only paged for events that require action"
     ]
   },
 

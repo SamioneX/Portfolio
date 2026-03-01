@@ -3,7 +3,7 @@
     "slug": "portfolio",
     "status": "live",
     "completed_month": "Mar 2026",
-    "duration_weeks": 3,
+    "duration_weeks": 1,
     "team_size": "Solo",
     "featured": false
   },
@@ -31,11 +31,10 @@
 
   "highlights": {
     "items": [
-      "OIDC federation for CI/CD — GitHub Actions assumes a scoped IAM role via short-lived OIDC tokens instead of storing AWS credentials; the role grants only the minimum permissions needed to sync the site bucket and invalidate the CloudFront distribution",
-      "Lambda-backed CDK custom resource for DNS automation — since DNS is managed by Cloudflare rather than Route 53, a custom CloudFormation resource calls the Cloudflare API on every CDK deploy to upsert CNAMEs for sokech.com, www, and assets.sokech.com, keeping DNS self-healing without any manual steps",
-      "Two-distribution CDN architecture — site content and project media assets are served from separate CloudFront distributions and S3 buckets, with the assets distribution adding CORS headers so media can be embedded from cloudclips.sokech.com and other subdomains",
-      "Automated resume PDF generation — a Puppeteer script reads site.json and project JSON blueprints at CI time and renders a formatted A4 PDF via headless Chromium before the site build step, so the downloadable resume is always in sync with the website content",
-      "Data-driven project cards — each portfolio project is a standalone JSON blueprint; the Vite build discovers all project files at build time and renders cards dynamically, so adding a new project requires only a JSON file with no HTML or JS changes"
+      "The site is served globally through CloudFront from a private S3 origin — content lives in a private S3 bucket accessed via OAC (no public ACLs); GitHub Actions syncs the bucket and invalidates the CloudFront cache on every push to main with no manual steps",
+      "DNS provisioning is fully automated on every CDK deploy — since DNS is managed by Cloudflare rather than Route 53, a Lambda-backed CloudFormation custom resource calls the Cloudflare API to upsert CNAMEs for sokech.com, www, and assets.sokech.com; DNS stays self-healing without any manual intervention",
+      "Project media is served from a dedicated CDN under assets.sokech.com — a separate CloudFront distribution and S3 bucket handles screenshots, diagrams, and demo videos, with CORS headers configured so assets can be embedded across subdomains like cloudclips.sokech.com",
+      "The downloadable resume is generated automatically at CI time — before the Vite build step, a Puppeteer script reads site.json and all project JSON blueprints and renders a formatted A4 PDF via headless Chromium; the PDF is a build artifact so it can never drift out of sync with the site content"
     ]
   },
 

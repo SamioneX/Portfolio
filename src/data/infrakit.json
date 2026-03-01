@@ -31,11 +31,11 @@
 
   "highlights": {
     "items": [
-      "Policy-as-code engine — resource requests are evaluated against OPA (Open Policy Agent) rules before any infrastructure is provisioned, blocking non-compliant configs at the API boundary",
-      "AWS Step Functions orchestration — multi-stage approval and deploy workflows with human-in-the-loop steps for high-impact resources like RDS and VPC changes",
-      "Drift detection — scheduled Lambda compares live CloudFormation stack state against the desired state stored in DynamoDB, alerting on unauthorized changes",
-      "Cost estimation pre-deployment — integrates with AWS Pricing API to show estimated monthly cost before a request is approved",
-      "OIDC-based CI/CD — GitHub Actions pipeline deploys infrastructure updates using short-lived IAM role assumption, no static credentials stored"
+      "Engineers provision AWS resources through a web UI without needing AWS console access — every request is validated against OPA (Open Policy Agent) rules at the API boundary before any infrastructure is touched, blocking non-compliant configs (missing tags, oversized instances, wrong region) automatically",
+      "High-impact resource changes require human approval before deployment — Step Functions orchestrates a multi-stage workflow with a human-in-the-loop pause for sensitive resources like VPCs and RDS instances; the state machine waits for sign-off before invoking CDK deploy, producing a clear approval audit trail",
+      "Estimated monthly cost is shown before every request is approved — the platform calls the AWS Pricing API at request time and surfaces a cost projection to the approver, making budget impact visible before infrastructure is provisioned rather than after",
+      "Unauthorized infrastructure changes are automatically detected — a scheduled Lambda compares live CloudFormation stack state against the desired state in DynamoDB; any drift caused by direct console edits or out-of-band API calls triggers an SNS alert before it can compound",
+      "The platform deploys itself with OIDC-authenticated GitHub Actions — no static AWS credentials are stored anywhere; the pipeline assumes a scoped IAM role via short-lived OIDC tokens, applying the same zero-credential standard it enforces for all user-requested infrastructure"
     ]
   },
 

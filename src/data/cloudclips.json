@@ -3,7 +3,7 @@
     "slug": "cloud-clips",
     "status": "live",
     "completed_month": "Feb 2026",
-    "duration_weeks": 6,
+    "duration_weeks": 3,
     "team_size": "Solo",
     "featured": true
   },
@@ -31,12 +31,12 @@
 
   "highlights": {
     "items": [
-      "Presigned S3 upload pattern — the browser uploads directly to S3 without passing through any server, eliminating upload latency and keeping Lambda out of the hot path for large binary transfers",
-      "Event-driven transcoding pipeline — S3 ObjectCreated triggers EventBridge (not S3 notifications, which would create CDK circular dependencies), enqueues to SQS, and an ARM64 Lambda with an FFmpeg layer produces 720p and 360p outputs asynchronously",
-      "SNS fan-out with message attribute filters — a single pipeline topic delivers TRANSCODE_COMPLETE to both the Rekognition moderation Lambda and the Transcribe captions Lambda in parallel, with each subscriber filtering on its own event type",
-      "Lambda-backed CDK Custom Resources for Cloudflare integration — since DNS is managed by Cloudflare rather than Route 53, custom CloudFormation resources provision the ACM certificate via DNS validation and keep the CNAME record self-healing on every deploy",
-      "GitHub Actions with OIDC federation — no AWS access keys stored anywhere; GitHub Actions assumes a scoped IAM role via short-lived OIDC tokens, and VITE_* build-time env vars are fetched live from CloudFormation outputs mid-pipeline so the frontend always connects to the correct stack",
-      "10-stack CDK monorepo — each AWS domain (auth, storage, database, processing, moderation, API, CDN, DNS) is a separate CDK stack with explicit cross-stack boundaries, enforced least-privilege IAM grants, and a single deploy command"
+      "Videos upload at full connection speed without touching a server — presigned S3 URLs let the browser PUT directly to S3 — Lambda is never in the upload path, so throughput scales to the user's network, not a server limit",
+      "Every uploaded video is automatically transcoded into 720p and 360p — FFmpeg running on an ARM64 Lambda with a static binary layer — viewers get adaptive quality with no always-on transcoding infrastructure and no cost at idle",
+      "All content is scanned for inappropriate material before it goes live — AWS Rekognition Video processes each clip asynchronously and blocks publishing if any label exceeds the confidence threshold — moderation is enforced by the pipeline, not by trust",
+      "Captions are generated automatically for every published video — Amazon Transcribe produces VTT subtitle files that ship alongside the video via CloudFront — accessibility is built into the pipeline, not an optional afterthought",
+      "The custom domain, TLS certificate, and DNS record are all self-managing — Lambda-backed CDK Custom Resources call the Cloudflare API at deploy time — the certificate and CNAME stay correct after every deploy with no manual console steps",
+      "The entire platform deploys from a single command with no stored credentials — 10 CDK stacks and a GitHub Actions pipeline using OIDC federation — any developer can recreate the full environment from scratch in one push"
     ]
   },
 

@@ -45,9 +45,9 @@
   },
 
   "highlights": {
-    "_note": "The 'What I built' bullet list. 4-6 items. Each item must include WHAT you did AND WHY.",
+    "_note": "The 'What I built' bullet list. 4-6 items. Lead each bullet with a system capability or user-facing feature, then name the technology that enables it, then state the concrete outcome or constraint it satisfies. Pattern: '[What the system does] — [technology/service] — [measurable outcome]'. Do NOT lead with the technology name — the recruiter should understand the feature before they see the tool.",
     "items": [
-      "REQUIRED | Technology + the architectural decision behind using it",
+      "REQUIRED | [System capability or user-facing feature] — [technology that enables it] — [concrete outcome]",
       "REQUIRED | Add 4-6 total"
     ]
   },
