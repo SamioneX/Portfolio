@@ -81,12 +81,33 @@ assets-staging/
 
 ---
 
+## Resume PDF
+
+`public/resume.pdf` is **auto-generated** on every push to `main` from `src/data/site.json` and the project JSON files — you never need to edit it manually.
+
+To regenerate it locally (e.g. to preview before pushing):
+
+```bash
+npm run generate-resume
+# → writes public/resume.pdf
+```
+
+What it pulls in:
+- Name, title, contact links, bio, skills → from `site.json`
+- Experience and education entries → from `site.json`
+- Certifications → from `site.json`
+- Up to 3 projects (sorted by `meta.order`) → from `src/data/*.json`
+- If more than 3 projects exist, a "More projects at sokech.com" line is added automatically
+
+---
+
 ## CI/CD
 
 - **Trigger:** push to `main`
 - **Auth:** OIDC — no static AWS credentials stored
 - **Required secret:** `AWS_ROLE_ARN` (already set in GitHub repo secrets)
 - S3 bucket and CloudFront distribution ID are discovered automatically from CloudFormation outputs at deploy time
+- Resume PDF is regenerated automatically before the site build step
 
 ---
 
