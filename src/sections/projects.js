@@ -8,7 +8,11 @@ export function renderProjects() {
   const projects = Object.values(modules)
     .map(mod => mod.default ?? mod)
     .filter(data => data?.meta?.status === 'live' || data?.meta?.status === 'in-progress')
-    .sort((a, b) => (a.meta?.order ?? 99) - (b.meta?.order ?? 99))
+    .sort((a, b) => {
+      const statusRank = s => s === 'live' ? 0 : 1
+      const byStatus = statusRank(a.meta.status) - statusRank(b.meta.status)
+      return byStatus !== 0 ? byStatus : (a.meta?.order ?? 99) - (b.meta?.order ?? 99)
+    })
 
   const wrapper = document.createElement('section')
   wrapper.id = 'projects'
