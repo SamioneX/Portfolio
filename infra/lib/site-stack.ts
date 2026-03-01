@@ -149,6 +149,11 @@ export class SiteStack extends cdk.Stack {
       resources: [`arn:aws:cloudfront::${this.account}:distribution/${siteDist.distributionId}`],
     }))
 
+    deployRole.addToPolicy(new iam.PolicyStatement({
+      actions: ['cloudformation:DescribeStacks'],
+      resources: [`arn:aws:cloudformation:${this.region}:${this.account}:stack/SokechSiteStack/*`],
+    }))
+
     // ── Outputs ────────────────────────────────────────────────────────────
 
     new cdk.CfnOutput(this, 'DeployRoleArn', {
