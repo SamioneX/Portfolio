@@ -22,7 +22,6 @@
 
   "header": {
     "_note": "Top section of the card. First thing a recruiter reads.",
-    "number":    "REQUIRED | Display label. e.g. 'Project 01'",
     "title":     "REQUIRED | Short, memorable name. e.g. 'CloudClips'",
     "subtitle":  "REQUIRED | One sentence — what kind of system is it? Include the 2-3 most impressive technical adjectives. e.g. 'Serverless short-video platform with AI content moderation'",
     "live_url":  "REQUIRED if live | Full URL. e.g. 'https://cloudclips.sokech.com'. Use null if not live.",

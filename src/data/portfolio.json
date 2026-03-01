@@ -10,7 +10,6 @@
   },
 
   "header": {
-    "number": "Project 02",
     "title": "sokech.com",
     "subtitle": "Personal portfolio and resume site deployed on AWS S3 + CloudFront with automated CI/CD and a self-healing DNS automation layer",
     "live_url": "https://sokech.com",

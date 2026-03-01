@@ -4,7 +4,7 @@
  * @param {Object} data - Project JSON data
  * @returns {HTMLElement} - The rendered project card article
  */
-export function renderProjectCard(data) {
+export function renderProjectCard(data, index = 0) {
   const { meta, header, summary, motivation, architecture, highlights, metrics, stack, challenges, demo } = data
 
   const card = document.createElement('article')
@@ -27,7 +27,7 @@ export function renderProjectCard(data) {
   cardHeader.className = 'card-header'
   cardHeader.innerHTML = `
     <div>
-      <p class="project-number">${header.number}</p>
+      <p class="project-number">Project ${String(index + 1).padStart(2, '0')}</p>
       <h2 class="project-title">${header.title}</h2>
       <p class="project-subtitle">${header.subtitle}</p>
       ${statusBadge}

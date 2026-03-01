@@ -10,7 +10,6 @@
   },
 
   "header": {
-    "number": "Project 03",
     "title": "InfraKit",
     "subtitle": "Self-service infrastructure provisioning platform with policy-as-code guardrails",
     "live_url": null,

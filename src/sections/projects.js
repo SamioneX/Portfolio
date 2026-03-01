@@ -37,7 +37,7 @@ export function renderProjects() {
       divider.className = 'card-divider'
       wrapper.appendChild(divider)
     }
-    wrapper.appendChild(renderProjectCard(data))
+    wrapper.appendChild(renderProjectCard(data, index))
   })
 
   return wrapper

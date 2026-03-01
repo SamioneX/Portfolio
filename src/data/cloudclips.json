@@ -10,7 +10,6 @@
   },
 
   "header": {
-    "number": "Project 01",
     "title": "CloudClips",
     "subtitle": "Serverless short-video platform with AI content moderation and auto-generated captions",
     "live_url": "https://cloudclips.sokech.com",
