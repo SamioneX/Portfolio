@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "slug": "portfolio",
+    "order": 2,
+    "status": "live",
+    "completed_month": "Mar 2026",
+    "duration_weeks": 3,
+    "team_size": "Solo",
+    "certs_applied": ["SAA"],
+    "featured": false
+  },
+
+  "header": {
+    "number": "Project 02",
+    "title": "sokech.com",
+    "subtitle": "Personal portfolio and resume site deployed on AWS S3 + CloudFront with automated CI/CD and a self-healing DNS automation layer",
+    "live_url": "https://sokech.com",
+    "github_url": "https://github.com/SamioneX/Portfolio"
+  },
+
+  "summary": {
+    "plain_english": "A static personal portfolio site built with Vite and vanilla JavaScript, deployed globally via AWS CloudFront with private S3 origins and OAC. All infrastructure is defined as code with AWS CDK, DNS is automated through a Lambda-backed CloudFormation custom resource that provisions Cloudflare CNAMEs on every deploy, and a GitHub Actions pipeline handles build, PDF generation, and deployment with OIDC authentication — no AWS credentials stored anywhere."
+  },
+
+  "motivation": {
+    "quote": "I wanted a portfolio that demonstrates the same cloud engineering practices I apply to production projects — IaC, OIDC CI/CD, CDN delivery, and automated DNS — rather than just hosting a static page on a third-party platform."
+  },
+
+  "architecture": {
+    "diagram_path": "https://assets.sokech.com/portfolio/diagrams/portfolio-arch.png",
+    "diagram_alt": "Architecture diagram showing visitor traffic flowing through Cloudflare DNS CNAME Flattening to CloudFront, which serves content from a private S3 bucket via OAC. GitHub Actions uses OIDC to assume an IAM role for deployments. A Lambda-backed CDK custom resource provisions Cloudflare DNS CNAMEs automatically on every stack deploy.",
+    "flow_summary": "Visitor → Cloudflare DNS (CNAME Flattening) → CloudFront (HTTPS, HTTP/2+3, OAC) → S3 private bucket | GitHub Actions → OIDC → IAM Role → S3 sync + CloudFront invalidation | CDK custom resource → Lambda → Cloudflare API → DNS CNAMEs"
+  },
+
+  "highlights": {
+    "items": [
+      "OIDC federation for CI/CD — GitHub Actions assumes a scoped IAM role via short-lived OIDC tokens instead of storing AWS credentials; the role grants only the minimum permissions needed to sync the site bucket and invalidate the CloudFront distribution",
+      "Lambda-backed CDK custom resource for DNS automation — since DNS is managed by Cloudflare rather than Route 53, a custom CloudFormation resource calls the Cloudflare API on every CDK deploy to upsert CNAMEs for sokech.com, www, and assets.sokech.com, keeping DNS self-healing without any manual steps",
+      "Two-distribution CDN architecture — site content and project media assets are served from separate CloudFront distributions and S3 buckets, with the assets distribution adding CORS headers so media can be embedded from cloudclips.sokech.com and other subdomains",
+      "Automated resume PDF generation — a Puppeteer script reads site.json and project JSON blueprints at CI time and renders a formatted A4 PDF via headless Chromium before the site build step, so the downloadable resume is always in sync with the website content",
+      "Data-driven project cards — each portfolio project is a standalone JSON blueprint; the Vite build discovers all project files at build time and renders cards dynamically, so adding a new project requires only a JSON file with no HTML or JS changes"
+    ]
+  },
+
+  "metrics": {
+    "items": [
+      {
+        "value": "2",
+        "label": "CDK stacks deployed"
+      },
+      {
+        "value": "2",
+        "label": "CloudFront distributions"
+      },
+      {
+        "value": "$0",
+        "label": "Idle infrastructure cost"
+      },
+      {
+        "value": "0",
+        "label": "Stored AWS credentials"
+      }
+    ]
+  },
+
+  "stack": {
+    "aws": ["S3", "CloudFront", "ACM", "IAM", "Lambda", "Secrets Manager", "CDK"],
+    "languages": ["TypeScript", "JavaScript", "Python"],
+    "frameworks_tools": ["Vite", "Puppeteer", "GitHub Actions"],
+    "concepts_patterns": ["IaC", "OIDC federation", "CDN + OAC", "CI/CD", "DNS automation"]
+  },
+
+  "challenges": {
+    "items": [
+      "Cloudflare DNS with CloudFront at the root domain: Cloudflare's CNAME Flattening resolves the CNAME at the DNS level for the apex domain, which is normally incompatible with standard CNAME records. Using DNS-only mode (grey cloud, not orange) in Cloudflare was critical — proxying through Cloudflare would conflict with CloudFront's own TLS termination.",
+      "ACM certificate automation with Cloudflare DNS: CDK's native Certificate construct only supports Route 53 for DNS validation. I wrote a Lambda-backed CloudFormation Custom Resource that requests the ACM certificate, reads the DNS validation CNAME from the ACM API, and provisions it in Cloudflare — polling until issuance before signalling CloudFormation success.",
+      "Resume PDF always in sync: keeping the downloadable resume manually updated alongside JSON content changes is error-prone. Solved by generating the PDF from site.json at CI time using Puppeteer, so the PDF is a build artifact rather than a committed file that can drift out of date.",
+      "What I'd do differently: add a CloudFront Function to handle URL rewrites (trailing slashes, .html extensions) at the edge rather than relying on S3 error response redirects, which adds latency and can cause issues with deep-linked routes in the future."
+    ]
+  },
+
+  "demo": {
+    "screenshot_paths": [],
+    "video_demo_url": null,
+    "readme_url": "https://github.com/SamioneX/Portfolio#readme"
+  }
+}
