@@ -66,28 +66,31 @@ echo "▸ Deploying SiteStack (S3 + CloudFront + GitHub OIDC + Cloudflare DNS)..
 npx cdk deploy SokechSiteStack --require-approval never --outputs-file "$OUTPUTS_FILE"
 
 # ── Print next steps ───────────────────────────────────────────────────────
-ROLE_ARN=$(node -p    "require('$OUTPUTS_FILE').SokechSiteStack.DeployRoleArn")
-BUCKET=$(node -p      "require('$OUTPUTS_FILE').SokechSiteStack.SiteBucketName")
-DIST_ID=$(node -p     "require('$OUTPUTS_FILE').SokechSiteStack.SiteDistributionId")
-SITE_DOMAIN=$(node -p "require('$OUTPUTS_FILE').SokechSiteStack.SiteDistDomain")
+ROLE_ARN=$(node -p      "require('$OUTPUTS_FILE').SokechSiteStack.DeployRoleArn")
+SITE_DOMAIN=$(node -p   "require('$OUTPUTS_FILE').SokechSiteStack.SiteDistDomain")
 ASSETS_DOMAIN=$(node -p "require('$OUTPUTS_FILE').SokechSiteStack.AssetsDistDomain")
 
 echo ""
 echo "✔ Deployment complete!"
 echo ""
-echo "── Step 1: Add these secrets to GitHub ──────────────────────────────────"
-echo "  (Repo → Settings → Secrets and variables → Actions)"
+echo "── Step 1: Add GitHub secret ────────────────────────────────────────────"
+echo "  Repo → Settings → Secrets and variables → Actions → New repository secret"
 echo ""
-echo "  AWS_ROLE_ARN         = $ROLE_ARN"
-echo "  PORTFOLIO_S3_BUCKET  = $BUCKET"
-echo "  PORTFOLIO_CF_DIST_ID = $DIST_ID"
+echo "  AWS_ROLE_ARN = $ROLE_ARN"
 echo ""
-echo "── Step 2: Update Cloudflare DNS (apex only — subdomains are automatic) ─"
-echo "  In Cloudflare Dashboard → DNS, set:"
+echo "  (S3 bucket and CloudFront dist ID are discovered automatically from"
+echo "   CloudFormation outputs at deploy time — no additional secrets needed.)"
 echo ""
-echo "  CNAME  sokech.com           →  $SITE_DOMAIN   (DNS only, not proxied)"
-echo "  CNAME  www.sokech.com       →  $SITE_DOMAIN   (already done automatically)"
-echo "  CNAME  assets.sokech.com    →  $ASSETS_DOMAIN (already done automatically)"
+echo "── Step 2: Verify Cloudflare DNS records ────────────────────────────────"
+echo "  All three CNAMEs were provisioned automatically by the Lambda custom resource."
+echo "  Verify in Cloudflare Dashboard → DNS that each record is DNS-only (grey cloud):"
+echo ""
+echo "  CNAME  sokech.com        →  $SITE_DOMAIN"
+echo "  CNAME  www.sokech.com    →  $SITE_DOMAIN"
+echo "  CNAME  assets.sokech.com →  $ASSETS_DOMAIN"
+echo ""
+echo "  ⚠ Do NOT enable Cloudflare proxy (orange cloud) on these records —"
+echo "    it conflicts with CloudFront's own TLS termination."
 echo ""
 echo "── Step 3: Push to main to trigger first site deployment ────────────────"
 echo "  git push origin main"
