@@ -164,10 +164,6 @@ export function renderProjectCard(data, index = 0) {
   card.appendChild(body)
 
   // ── FOOTER ────────────────────────────────────────────
-  const certsLine = meta.certs_applied?.length
-    ? `<p class="footer-meta">Certs applied: <span>${meta.certs_applied.join(' · ')}</span></p>`
-    : ''
-
   const teamLabel = meta.team_size ? ` · ${meta.team_size}` : ''
   const durationLabel = meta.duration_weeks ? ` · ~${meta.duration_weeks} weeks` : ''
 
@@ -177,7 +173,6 @@ export function renderProjectCard(data, index = 0) {
     <p class="footer-meta">
       Completed <span>${meta.completed_month}</span>${teamLabel}${durationLabel}
     </p>
-    ${certsLine}
   `
   card.appendChild(cardFooter)
 

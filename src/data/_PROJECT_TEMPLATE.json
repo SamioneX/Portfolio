@@ -16,7 +16,6 @@
     "completed_month": "REQUIRED | e.g. 'Feb 2026'",
     "duration_weeks":  "RECOMMENDED | How long did it take? e.g. 5",
     "team_size":       "REQUIRED | 'Solo' or 'Team of N'",
-    "certs_applied":   "RECOMMENDED | Array of cert short names that are relevant. e.g. ['SAA', 'DVA', 'CloudOps']",
     "featured":        "OPTIONAL | true/false. Marks this as a hero/featured project."
   },
 
