@@ -1,0 +1,89 @@
+{
+  "_template_version": "1.0",
+  "_instructions": {
+    "how_to_use": "Duplicate this file, rename it to your project slug (e.g. infrakit.json), delete all keys starting with underscore, and fill in every field. Import the completed file into your portfolio build.",
+    "field_guide": {
+      "REQUIRED":    "Must be filled — card will break without it",
+      "RECOMMENDED": "Strongly encouraged — leave blank only if truly not applicable",
+      "OPTIONAL":    "Nice to have, skip if it doesn't apply"
+    }
+  },
+
+  "meta": {
+    "_note": "Administrative info. Not displayed publicly but used for ordering and filtering.",
+    "slug":            "REQUIRED | URL-safe project ID, lowercase-hyphenated. e.g. 'cloud-clips'",
+    "order":           "REQUIRED | Integer. Controls display order on portfolio. 1 = first.",
+    "status":          "REQUIRED | One of: 'live' | 'in-progress' | 'archived'",
+    "completed_month": "REQUIRED | e.g. 'Feb 2026'",
+    "duration_weeks":  "RECOMMENDED | How long did it take? e.g. 5",
+    "team_size":       "REQUIRED | 'Solo' or 'Team of N'",
+    "certs_applied":   "RECOMMENDED | Array of cert short names that are relevant. e.g. ['SAA', 'DVA', 'CloudOps']",
+    "featured":        "OPTIONAL | true/false. Marks this as a hero/featured project."
+  },
+
+  "header": {
+    "_note": "Top section of the card. First thing a recruiter reads.",
+    "number":    "REQUIRED | Display label. e.g. 'Project 01'",
+    "title":     "REQUIRED | Short, memorable name. e.g. 'CloudClips'",
+    "subtitle":  "REQUIRED | One sentence — what kind of system is it? Include the 2-3 most impressive technical adjectives. e.g. 'Serverless short-video platform with AI content moderation'",
+    "live_url":  "REQUIRED if live | Full URL. e.g. 'https://cloudclips.sokech.com'. Use null if not live.",
+    "github_url":"RECOMMENDED | Full GitHub repo URL. Use null if private."
+  },
+
+  "summary": {
+    "_note": "The 'What it is' section. Write for a non-technical recruiter scanning in 8 seconds. No acronyms. 2-3 sentences max.",
+    "plain_english": "REQUIRED | What does it do? Who would use it in the real world?"
+  },
+
+  "motivation": {
+    "_note": "The 'Why I built it' section. Write in your own voice, as if quoted. Shows intentionality.",
+    "quote": "REQUIRED | 1-2 sentences starting with 'I' or a statement about the problem."
+  },
+
+  "architecture": {
+    "_note": "Describes the system design. The diagram is the most important artifact here.",
+    "diagram_path":  "RECOMMENDED | URL or relative path to architecture PNG/SVG. Use null to show placeholder.",
+    "diagram_alt":   "RECOMMENDED | Alt text for the diagram image.",
+    "flow_summary":  "REQUIRED | One-line data flow. Use → between steps."
+  },
+
+  "highlights": {
+    "_note": "The 'What I built' bullet list. 4-6 items. Each item must include WHAT you did AND WHY.",
+    "items": [
+      "REQUIRED | Technology + the architectural decision behind using it",
+      "REQUIRED | Add 4-6 total"
+    ]
+  },
+
+  "metrics": {
+    "_note": "The 'By the numbers' grid. Max 4 metrics. Use real or estimated values — never fabricate.",
+    "items": [
+      { "value": "REQUIRED | e.g. '<2s'", "label": "REQUIRED | e.g. 'Moderation latency'" },
+      { "value": "REQUIRED | Add up to 4 total", "label": "REQUIRED | Keep labels under 4 words" }
+    ]
+  },
+
+  "stack": {
+    "_note": "Tech stack tags, grouped by category. Each category renders in a different color.",
+    "aws":               "REQUIRED if applicable | Array of AWS service names.",
+    "languages":         "REQUIRED | Array. e.g. ['Python', 'JavaScript']",
+    "frameworks_tools":  "RECOMMENDED | Array. e.g. ['React', 'AWS CDK', 'FastAPI']",
+    "concepts_patterns": "OPTIONAL | Array of architectural patterns. e.g. ['Event-driven', 'Serverless']"
+  },
+
+  "challenges": {
+    "_note": "The 'Challenges & learnings' section. THIS is what interviewers ask about. 3-5 items.",
+    "items": [
+      "REQUIRED | What broke? What surprised you? What forced a design change?",
+      "REQUIRED | Last item should always be 'What I'd do differently: ...'",
+      "REQUIRED | Add 3-5 total"
+    ]
+  },
+
+  "demo": {
+    "_note": "Optional media attachments shown alongside the card.",
+    "screenshot_paths": "OPTIONAL | Array of URLs. e.g. ['https://assets.sokech.com/cloudclips/screenshots/upload.png']",
+    "video_demo_url":   "OPTIONAL | Loom, YouTube, or direct .mp4 URL. Use null if none.",
+    "readme_url":       "RECOMMENDED | Direct link to the GitHub README."
+  }
+}

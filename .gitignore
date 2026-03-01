@@ -1,0 +1,11 @@
+node_modules/
+dist/
+cdk.out/
+.DS_Store
+*.local
+
+# Environment secrets — never commit
+.env
+
+# Local asset staging area — upload to S3, then delete
+assets-staging/

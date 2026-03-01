@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "slug": "infrakit",
+    "order": 2,
+    "status": "in-progress",
+    "completed_month": "TBD",
+    "duration_weeks": null,
+    "team_size": "Solo",
+    "certs_applied": ["SAA", "DVA", "SOA"],
+    "featured": false
+  },
+
+  "header": {
+    "number": "Project 02",
+    "title": "InfraKit",
+    "subtitle": "Self-service infrastructure provisioning platform with policy-as-code guardrails",
+    "live_url": null,
+    "github_url": null
+  },
+
+  "summary": {
+    "plain_english": "A developer portal that lets engineers provision AWS infrastructure — VPCs, RDS instances, S3 buckets, and more — through a web UI without needing AWS console access. Every resource request is validated against a policy engine before deployment, ensuring cost caps, tagging standards, and security baselines are enforced automatically."
+  },
+
+  "motivation": {
+    "quote": "I wanted to understand how platform engineering teams abstract cloud complexity away from developers while still enforcing governance. Building the guardrails layer — policy evaluation, drift detection, approval workflows — is where the real engineering challenge lives."
+  },
+
+  "architecture": {
+    "diagram_path": null,
+    "diagram_alt": "InfraKit architecture diagram",
+    "flow_summary": "React UI → API Gateway → Lambda (policy eval) → Step Functions → CDK deploy → DynamoDB state store → SNS notifications"
+  },
+
+  "highlights": {
+    "items": [
+      "Policy-as-code engine — resource requests are evaluated against OPA (Open Policy Agent) rules before any infrastructure is provisioned, blocking non-compliant configs at the API boundary",
+      "AWS Step Functions orchestration — multi-stage approval and deploy workflows with human-in-the-loop steps for high-impact resources like RDS and VPC changes",
+      "Drift detection — scheduled Lambda compares live CloudFormation stack state against the desired state stored in DynamoDB, alerting on unauthorized changes",
+      "Cost estimation pre-deployment — integrates with AWS Pricing API to show estimated monthly cost before a request is approved",
+      "OIDC-based CI/CD — GitHub Actions pipeline deploys infrastructure updates using short-lived IAM role assumption, no static credentials stored"
+    ]
+  },
+
+  "metrics": {
+    "items": [
+      { "value": "", "label": "Resource types supported" },
+      { "value": "", "label": "Policy rules enforced" },
+      { "value": "$0", "label": "Always-on compute cost" },
+      { "value": "", "label": "Deployment time" }
+    ]
+  },
+
+  "stack": {
+    "aws": ["Lambda", "Step Functions", "API Gateway", "DynamoDB", "SNS", "CloudFormation", "CDK", "IAM", "Pricing API"],
+    "languages": ["TypeScript", "Python"],
+    "frameworks_tools": ["React", "Open Policy Agent", "Vite", "GitHub Actions"],
+    "concepts_patterns": ["Policy-as-code", "IaC", "OIDC federation", "Drift detection", "Event-driven"]
+  },
+
+  "challenges": {
+    "items": [
+      "OPA integration with Lambda — embedding the OPA WASM binary inside a Lambda layer required careful bundle size management and cold-start profiling to keep policy evaluation under 200ms",
+      "Step Functions error handling — designing idempotent state machine steps that can be safely retried after a partial failure required explicit input/output schemas and careful use of ResultPath",
+      "Cross-account deployment — provisioning resources in target accounts required a hub-and-spoke IAM role assumption pattern with scoped trust policies per account"
+    ]
+  },
+
+  "demo": {
+    "screenshot_paths": null,
+    "video_demo_url": null,
+    "readme_url": null
+  }
+}

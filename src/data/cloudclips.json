@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "slug": "cloud-clips",
+    "order": 1,
+    "status": "live",
+    "completed_month": "Feb 2026",
+    "duration_weeks": 6,
+    "team_size": "Solo",
+    "certs_applied": ["SAA", "DVA"],
+    "featured": true
+  },
+
+  "header": {
+    "number": "Project 01",
+    "title": "CloudClips",
+    "subtitle": "Serverless short-video platform with AI content moderation and auto-generated captions",
+    "live_url": "https://cloudclips.sokech.com",
+    "github_url": "https://github.com/SamioneX/CloudClips"
+  },
+
+  "summary": {
+    "plain_english": "A full-stack video sharing platform where users upload short clips that are automatically transcoded into two resolutions, scanned for inappropriate content by machine learning, and served globally via CDN — all without a single always-on server. Every component from infrastructure to the React frontend is defined in code and deployed automatically on every push."
+  },
+
+  "motivation": {
+    "quote": "I wanted to go beyond tutorial CRUD apps and build something with real distributed systems complexity — async pipelines, event-driven architecture, AI integration, and a custom CI/CD setup with zero stored credentials. Video platforms touch nearly every hard problem in cloud engineering at once."
+  },
+
+  "architecture": {
+    "diagram_path": "https://assets.sokech.com/cloudclips/diagrams/cloudclips-arch.png",
+    "diagram_alt": "Architecture diagram showing browser uploading to S3 via presigned URL, triggering an EventBridge event, Lambda transcoding with FFmpeg, SNS fan-out to Rekognition and Transcribe, and CloudFront serving the results",
+    "flow_summary": "Browser → API Gateway → presign-upload Lambda → S3 (presigned PUT) → EventBridge → SQS → transcode Lambda (FFmpeg) → SNS → Rekognition + Transcribe → DynamoDB → CloudFront CDN"
+  },
+
+  "highlights": {
+    "items": [
+      "Presigned S3 upload pattern — the browser uploads directly to S3 without passing through any server, eliminating upload latency and keeping Lambda out of the hot path for large binary transfers",
+      "Event-driven transcoding pipeline — S3 ObjectCreated triggers EventBridge (not S3 notifications, which would create CDK circular dependencies), enqueues to SQS, and an ARM64 Lambda with an FFmpeg layer produces 720p and 360p outputs asynchronously",
+      "SNS fan-out with message attribute filters — a single pipeline topic delivers TRANSCODE_COMPLETE to both the Rekognition moderation Lambda and the Transcribe captions Lambda in parallel, with each subscriber filtering on its own event type",
+      "Lambda-backed CDK Custom Resources for Cloudflare integration — since DNS is managed by Cloudflare rather than Route 53, custom CloudFormation resources provision the ACM certificate via DNS validation and keep the CNAME record self-healing on every deploy",
+      "GitHub Actions with OIDC federation — no AWS access keys stored anywhere; GitHub Actions assumes a scoped IAM role via short-lived OIDC tokens, and VITE_* build-time env vars are fetched live from CloudFormation outputs mid-pipeline so the frontend always connects to the correct stack",
+      "10-stack CDK monorepo — each AWS domain (auth, storage, database, processing, moderation, API, CDN, DNS) is a separate CDK stack with explicit cross-stack boundaries, enforced least-privilege IAM grants, and a single deploy command"
+    ]
+  },
+
+  "metrics": {
+    "items": [
+      {
+        "value": "$0",
+        "label": "Idle infrastructure cost"
+      },
+      {
+        "value": "10",
+        "label": "CDK stacks deployed"
+      },
+      {
+        "value": "2",
+        "label": "Video resolutions (720p + 360p)"
+      },
+      {
+        "value": "12",
+        "label": "Lambda functions"
+      }
+    ]
+  },
+
+  "stack": {
+    "aws": ["Lambda", "S3", "CloudFront", "API Gateway", "DynamoDB", "Cognito", "SQS", "SNS", "EventBridge", "Rekognition", "Transcribe", "ACM", "Secrets Manager", "CDK"],
+    "languages": ["TypeScript"],
+    "frameworks_tools": ["React", "Vite", "AWS Amplify v6", "React Router v6", "FFmpeg", "GitHub Actions", "pnpm workspaces"],
+    "concepts_patterns": ["Serverless", "Event-driven", "IaC", "Presigned URLs", "OIDC federation", "CDN + OAC", "CI/CD", "Fan-out messaging"]
+  },
+
+  "challenges": {
+    "items": [
+      "CDK cross-stack circular dependency: S3 buckets can't trigger Lambda directly across stacks without each stack needing a reference to the other. Solved by enabling EventBridge on the upload bucket — the Storage stack stays unaware of Processing, and the Processing stack creates the EventBridge rule independently.",
+      "ACM certificate with Cloudflare DNS: CDK's built-in Certificate construct only supports Route 53 for DNS validation. I wrote a Lambda-backed CloudFormation Custom Resource that calls the Cloudflare API to upsert the validation CNAME and polls ACM until the certificate is issued — runs automatically on every deploy.",
+      "CloudFront OAC bucket policies: When CDK imports an S3 bucket by ARN (required to break the CDN ↔ Storage circular dependency), it can't automatically add the OAC-required bucket policy. The deploy script applies this as a post-deploy step — a constraint I only discovered after the first deploy returned 403s.",
+      "GitHub Actions missing VITE_* env vars: The original deploy workflow ran the frontend build with no environment variables set, meaning the deployed app would silently connect to nothing. Fixed by fetching live values from CloudFormation outputs mid-pipeline and writing them to $GITHUB_ENV before the build step.",
+      "FFmpeg on Lambda sizing: Running FFmpeg inside a Lambda function requires careful memory and ephemeral storage configuration — too little and the process OOMs or runs out of /tmp space mid-transcode. Landed on 2 GB RAM and 2 GB /tmp after testing, which comfortably handles clips up to several minutes."
+    ]
+  },
+
+  "demo": {
+    "screenshot_paths": [
+      "https://assets.sokech.com/cloudclips/screenshots/home-page.png",
+      "https://assets.sokech.com/cloudclips/screenshots/upload-page.png"
+    ],
+    "video_demo_url": "https://assets.sokech.com/cloudclips/demo.mp4",
+    "readme_url": "https://github.com/SamioneX/CloudClips#readme"
+  }
+}

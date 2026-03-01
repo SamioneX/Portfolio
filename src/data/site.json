@@ -1,0 +1,119 @@
+{
+  "_note": "Edit this file to update all personal content on the site. No code changes needed.",
+
+  "hero": {
+    "eyebrow": "sokech.com",
+    "name": "Samuel Okechukwu",
+    "title": "Cloud & Software Engineer",
+    "tagline": "I engineer cloud-native applications — scalable by design, serverless where it counts, and built for production.",
+    "cv_url": "/resume.pdf"
+  },
+
+  "about": {
+    "bio": [
+      "I'm a software developer with a solid academic foundation in Computer Science — a Bachelor's and a Master's — and hands-on experience building and maintaining software in enterprise environments. That combination gave me both the theoretical grounding and the practical instincts to write code that holds up under real production pressure.",
+      "I work comfortably across the full software development lifecycle: from architecture and implementation through testing, code review, and CI/CD deployment. I have meaningful experience with cloud environments and am AWS certified, with a particular interest in cloud-native design patterns, distributed systems, and infrastructure as code.",
+      "Beyond the technical work, I've taken on mentorship and leadership roles — as a Teaching Assistant, tutor, and team lead — and genuinely enjoy helping others grow. I'm looking to join a collaborative engineering team where I can contribute, keep learning, and take on more responsibility over time."
+    ],
+    "stack": {
+      "aws":      ["AWS Lambda", "S3", "CloudFront", "CDK", "DynamoDB", "SQS/SNS"],
+      "languages": ["Python", "Java", "TypeScript", "JavaScript", "Go", "Rust", "C/C++"],
+      "tools":    ["React", "Node.js", "Docker", "PostgreSQL", "Git", "GitHub Actions"],
+      "concepts": ["Serverless", "Event-driven", "IaC", "REST APIs"]
+    }
+  },
+
+  "experience": [
+    {
+      "date": "Sep 2021 – Jan 2022",
+      "role": "Software Engineer I",
+      "company": "BlackRock · San Francisco, CA (Remote)",
+      "description": "Joined a production engineering team at one of the world's largest asset managers. Contributed to feature development, bug fixes, and refactoring across enterprise systems while participating in agile ceremonies and peer code reviews. Worked across Git-based CI/CD pipelines and developed deep familiarity with large-scale service architecture in a regulated financial environment."
+    },
+    {
+      "date": "Jul 2020 – Aug 2020",
+      "role": "Software Engineering Analyst Intern",
+      "company": "BlackRock · San Francisco, CA (Remote)",
+      "description": "Supported the migration of a monolithic Java desktop application to a modular, web-based cloud-ready architecture. Implemented backend services in Java and built the front end in Angular, delivering a working MVP under tight timelines and presenting results to stakeholders. Received a full-time return offer based on performance."
+    },
+    {
+      "date": "Jan 2024 – Aug 2025",
+      "role": "Master of Science, Computer Science",
+      "company": "Georgia Southwestern State University · USA",
+      "description": "Graduate study focused on distributed systems, cloud computing, and information security. Coursework spanned distributed operating systems, internetworking protocols, advanced database design, and mobile security, with applied emphasis on cloud-native architectures and infrastructure automation."
+    },
+    {
+      "date": "Aug 2017 – May 2021",
+      "role": "Bachelor of Science, Computer Science",
+      "company": "University of Illinois at Chicago · USA",
+      "description": "Four-year program covering algorithms, systems programming, databases, and software engineering. Served as Teaching Assistant for a 300-level Systems Programming course and undergraduate tutor in Data Structures and C programming. Graduated and joined BlackRock full-time."
+    }
+  ],
+
+  "certifications": [
+    {
+      "short": "SAA",
+      "name": "AWS Certified Solutions Architect – Associate",
+      "date": "Dec 12, 2025",
+      "note": "Validates the ability to design and deploy scalable, highly available systems on AWS.",
+      "badge": "/assets/certs/aws-certified-solutions-architect-associate.png",
+      "credlyUrl": "https://www.credly.com/badges/24c717c7-26d0-44d7-8a6a-f060e7b67038/public_url"
+    },
+    {
+      "short": "DVA",
+      "name": "AWS Certified Developer – Associate",
+      "date": "Jan 3, 2026",
+      "note": "Demonstrates proficiency in developing, deploying, and debugging cloud-based applications on AWS.",
+      "badge": "/assets/certs/aws-certified-developer-associate.png",
+      "credlyUrl": "https://www.credly.com/badges/1ad90114-1f90-4191-bc89-adbd34dacaa5/public_url"
+    },
+    {
+      "short": "SOA",
+      "name": "AWS Certified SysOps Administrator – Associate",
+      "date": "Jan 9, 2026",
+      "note": "Covers deployment, management, and operations of scalable, highly available systems on AWS.",
+      "badge": "/assets/certs/aws-certified-cloudops-engineer-associate.png",
+      "credlyUrl": "https://www.credly.com/badges/2e81c5a5-5509-4f80-bc91-b2e6ec79cea1/public_url"
+    }
+  ],
+
+  "contact": {
+    "heading": "Get in touch",
+    "tagline": "I'm actively looking for cloud and DevOps engineering roles. Feel free to reach out if you want to connect, chat about opportunities, or just say hi!",
+    "links": [
+      {
+        "label": "Email",
+        "href": "mailto:sam.okechukwu99@gmail.com",
+        "icon": "✉",
+        "primary": false,
+        "external": true
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/SamioneX",
+        "icon": "⌥",
+        "primary": false,
+        "external": true
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://linkedin.com/in/samuel-okechukwu-6084a412b/",
+        "icon": "◈",
+        "primary": false,
+        "external": true
+      },
+      {
+        "label": "Download CV",
+        "href": "/resume.pdf",
+        "icon": "↓",
+        "primary": true,
+        "external": false,
+        "download": true
+      }
+    ]
+  },
+
+  "footer": {
+    "text": "sokech.com · Built on AWS"
+  }
+}

@@ -1,0 +1,61 @@
+name: Deploy Portfolio
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Required for OIDC token exchange with AWS
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install and build
+        run: npm ci && npm run build
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Sync assets to S3 (long-lived cache)
+        run: |
+          aws s3 sync ./dist s3://${{ secrets.PORTFOLIO_S3_BUCKET }} \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable" \
+            --exclude "index.html"
+
+      - name: Sync index.html (no cache)
+        run: |
+          aws s3 cp ./dist/index.html s3://${{ secrets.PORTFOLIO_S3_BUCKET }}/index.html \
+            --cache-control "no-cache" \
+            --content-type "text/html"
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.PORTFOLIO_CF_DIST_ID }} \
+            --paths "/*"
+
+# ── Required GitHub Secrets ──────────────────────────────────────────────
+# Set these in: GitHub repo → Settings → Secrets → Actions
+# (scripts/deploy.sh prints these values after infra deployment)
+#
+#   AWS_ROLE_ARN          IAM role ARN from SokechSiteStack.DeployRoleArn output
+#   PORTFOLIO_S3_BUCKET   S3 bucket name (e.g. sokech-com-site)
+#   PORTFOLIO_CF_DIST_ID  CloudFront distribution ID
