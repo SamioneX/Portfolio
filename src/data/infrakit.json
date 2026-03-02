@@ -20,7 +20,7 @@
     "quote": "I built InfraKit to prove I could design and ship a real infrastructure product with schema validation, idempotent state and CI/CD—not just throw together some CloudFormation scripts."
   },
   "architecture": {
-    "diagram_path": "https://assets.sokech.com//infrakit/diagrams/infrakit_runtime_architecture.png",
+    "diagram_path": "https://assets.sokech.com/infrakit/diagrams/infrakit_runtime_architecture.png",
     "diagram_alt": "Architecture diagram showing CLI → AWS Services APIs → singleton AWS session → S3/DynamoDB state backend",
     "flow_summary": "YAML → Pydantic validation → dependency DAG → plan/apply engine → AWS via singleton session"
   },
