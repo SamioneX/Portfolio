@@ -822,6 +822,10 @@ a { color: inherit; text-decoration: none; }
   visibility: visible;
 }
 
+.modal-overlay.visible .modal-dialog {
+  animation: slideIn 0.3s ease-out;
+}
+
 .modal-dialog {
   position: relative;
   width: 90%;
