@@ -58,13 +58,24 @@ export class SiteStack extends cdk.Stack {
 
     // ── CloudFront: Assets Distribution ────────────────────────────────────
 
+    // Custom response headers policy that adds CORS headers for cross-origin fetch requests
+    const corsHeadersPolicy = new cloudfront.ResponseHeadersPolicy(this, 'AssetsCorsPolicyUnconditional', {
+      corsBehavior: {
+        accessControlAllowOrigins: ['*'],
+        accessControlAllowHeaders: ['*'],
+        accessControlAllowMethods: ['GET', 'HEAD', 'OPTIONS'],
+        accessControlAllowCredentials: false,
+        originOverride: true,
+      },
+    })
+
     const assetsDist = new cloudfront.Distribution(this, 'AssetsDist', {
       defaultBehavior: {
         origin: origins.S3BucketOrigin.withOriginAccessControl(assetsBucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
         compress: true,
-        responseHeadersPolicy: cloudfront.ResponseHeadersPolicy.CORS_ALLOW_ALL_ORIGINS,
+        responseHeadersPolicy: corsHeadersPolicy,
       },
       domainNames: [`assets.${DOMAIN}`],
       certificate: props.certificate,
