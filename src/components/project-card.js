@@ -1,10 +1,32 @@
+import { marked } from 'marked'
+import { renderSampleUsageModal, openModal } from './modal.js'
+
+/**
+ * Extract the first code block from markdown HTML and truncate to preview length
+ * @param {string} html - Rendered markdown HTML
+ * @returns {string} - HTML snippet of the first code block (max ~3 lines)
+ */
+function extractFirstCodeBlock(html) {
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(html, 'text/html')
+  const preBlock = doc.querySelector('pre code')
+
+  if (!preBlock) return null
+
+  const lines = preBlock.textContent.split('\n')
+  const trimmedLines = lines.slice(0, 4).join('\n').trim()
+  const truncated = trimmedLines.length > 200 ? trimmedLines.substring(0, 200) + '...' : trimmedLines
+
+  return `<pre><code>${truncated}</code></pre>`
+}
+
 /**
  * Renders a project card from a JSON blueprint object.
  * Applies all null/empty rules from CLAUDE.md.
  * @param {Object} data - Project JSON data
- * @returns {HTMLElement} - The rendered project card article
+ * @returns {Promise<HTMLElement>} - The rendered project card article
  */
-export function renderProjectCard(data, index = 0) {
+export async function renderProjectCard(data, index = 0) {
   const { meta, header, summary, motivation, architecture, highlights, metrics, stack, challenges, demo } = data
 
   const card = document.createElement('article')
@@ -142,7 +164,50 @@ export function renderProjectCard(data, index = 0) {
     `
   }
 
-  // 8. Video demo (full-width, optional)
+  // 8. Sample usage markdown (full-width, optional)
+  const sampleUsageUrl = demo?.sample_usage_url
+  if (sampleUsageUrl) {
+    try {
+      const response = await fetch(sampleUsageUrl)
+      if (response.ok) {
+        const markdown = await response.text()
+        const markdownHtml = await marked(markdown)
+        const previewBlock = extractFirstCodeBlock(markdownHtml)
+
+        if (previewBlock) {
+          // Create modal element
+          const modal = renderSampleUsageModal(markdownHtml, header.title)
+          body.appendChild(modal)
+
+          // Add preview card with click handler
+          const previewDiv = document.createElement('div')
+          previewDiv.className = 'full-width'
+          previewDiv.innerHTML = `
+            <p class="section-label">Sample Usage</p>
+            <div style="border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem; background: var(--subtle); cursor: pointer; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center;" class="sample-usage-preview" data-modal-trigger="">
+              <div style="flex: 1; font-family: var(--font-mono); font-size: 0.85em; color: var(--green); overflow: hidden;">
+                ${previewBlock}
+              </div>
+              <div style="margin-left: 1rem; font-size: 0.9em; color: var(--muted); white-space: nowrap;">View full →</div>
+            </div>
+          `
+
+          // Add click handler to preview
+          previewDiv.querySelector('.sample-usage-preview').addEventListener('click', () => {
+            openModal(modal)
+          })
+
+          body.appendChild(previewDiv)
+        }
+      } else {
+        console.warn(`Failed to fetch sample usage from ${sampleUsageUrl}: ${response.status}`)
+      }
+    } catch (error) {
+      console.warn(`Error loading sample usage from ${sampleUsageUrl}:`, error.message)
+    }
+  }
+
+  // 9. Video demo (full-width, optional)
   const videoUrl = demo?.video_demo_url
   if (videoUrl) {
     body.innerHTML += `
@@ -158,7 +223,7 @@ export function renderProjectCard(data, index = 0) {
     `
   }
 
-  // 9. Screenshots carousel (full-width, optional)
+  // 10. Screenshots carousel (full-width, optional)
   const shots = demo?.screenshot_paths
   if (Array.isArray(shots) && shots.length) {
     body.innerHTML += `

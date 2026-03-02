@@ -81,6 +81,7 @@
     "_note": "Optional media attachments shown alongside the card.",
     "screenshot_paths": "OPTIONAL | Array of URLs. e.g. ['https://assets.sokech.com/cloudclips/screenshots/upload.png']",
     "video_demo_url":   "OPTIONAL | Loom, YouTube, or direct .mp4 URL. Use null if none.",
+    "sample_usage_url": "OPTIONAL | URL to markdown file showing CLI usage or code examples. e.g. 'https://assets.sokech.com/infrakit/USAGE.md'. Use null if none.",
     "readme_url":       "RECOMMENDED | Direct link to the GitHub README."
   }
 }

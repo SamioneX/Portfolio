@@ -1,6 +1,6 @@
 import { renderProjectCard } from '../components/project-card.js'
 
-export function renderProjects() {
+export async function renderProjects() {
   // Load all JSON files in data/. Files starting with _ are schema/templates and
   // are excluded by checking for a valid meta.status field.
   const modules = import.meta.glob('../data/*.json', { eager: true })
@@ -31,13 +31,17 @@ export function renderProjects() {
   `
   wrapper.appendChild(header)
 
-  projects.forEach((data, index) => {
+  // Render all project cards (async) and append them
+  const cardPromises = projects.map((data, index) => renderProjectCard(data, index))
+  const cards = await Promise.all(cardPromises)
+
+  cards.forEach((card, index) => {
     if (index > 0) {
       const divider = document.createElement('div')
       divider.className = 'card-divider'
       wrapper.appendChild(divider)
     }
-    wrapper.appendChild(renderProjectCard(data, index))
+    wrapper.appendChild(card)
   })
 
   return wrapper

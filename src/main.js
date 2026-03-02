@@ -17,7 +17,12 @@ app.appendChild(renderHero())
 app.appendChild(renderAbout())
 app.appendChild(renderExperience())
 app.appendChild(renderCertifications())
-app.appendChild(renderProjects())
+
+// renderProjects is async due to markdown fetching
+renderProjects().then(projectsSection => {
+  app.appendChild(projectsSection)
+})
+
 app.appendChild(renderContact())
 
 // ── Scroll-triggered reveal animation ─────────────────
