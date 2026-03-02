@@ -21,9 +21,8 @@ app.appendChild(renderCertifications())
 // renderProjects is async due to markdown fetching
 renderProjects().then(projectsSection => {
   app.appendChild(projectsSection)
+  app.appendChild(renderContact())
 })
-
-app.appendChild(renderContact())
 
 // ── Scroll-triggered reveal animation ─────────────────
 // Checks all un-revealed elements on each scroll event, and once immediately
