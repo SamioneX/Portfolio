@@ -174,6 +174,12 @@ export async function renderProjectCard(data, index = 0) {
         const markdownHtml = await marked(markdown)
         const previewBlock = extractFirstCodeBlock(markdownHtml)
 
+        console.log(`[Sample Usage] Fetched from ${sampleUsageUrl}`, {
+          markdownLength: markdown.length,
+          htmlLength: markdownHtml.length,
+          previewFound: !!previewBlock
+        })
+
         if (previewBlock) {
           // Create modal element
           const modal = renderSampleUsageModal(markdownHtml, header.title)
@@ -198,6 +204,8 @@ export async function renderProjectCard(data, index = 0) {
           })
 
           body.appendChild(previewDiv)
+        } else {
+          console.warn(`[Sample Usage] No code block found in markdown for ${header.title}`)
         }
       } else {
         console.warn(`Failed to fetch sample usage from ${sampleUsageUrl}: ${response.status}`)
