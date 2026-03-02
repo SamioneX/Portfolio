@@ -70,19 +70,21 @@ export function openModal(modalElement) {
     document.body.appendChild(modalElement)
   }
 
-  // Trigger reflow to ensure animation plays
-  modalElement.offsetHeight
-
-  // Add visible class to trigger fade-in
-  modalElement.classList.add('visible')
-
-  // Bind ESC key listener
-  if (modalElement._escapeHandler) {
-    document.addEventListener('keydown', modalElement._escapeHandler)
-  }
-
-  // Prevent body scroll
+  // Prevent body scroll immediately
   document.body.style.overflow = 'hidden'
+
+  // Use requestAnimationFrame to ensure the browser has completed layout calculations
+  // before making the modal visible. This fixes the "zero height" issue on first open
+  // where the markdown content hasn't been fully laid out yet.
+  requestAnimationFrame(() => {
+    // Add visible class to trigger fade-in
+    modalElement.classList.add('visible')
+
+    // Bind ESC key listener
+    if (modalElement._escapeHandler) {
+      document.addEventListener('keydown', modalElement._escapeHandler)
+    }
+  })
 }
 
 /**
