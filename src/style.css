@@ -524,6 +524,12 @@ a { color: inherit; text-decoration: none; }
   border-radius: 2px;
   overflow: hidden;
   position: relative;
+  width: 100%;
+}
+.project-card img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 .project-card::before {
   content: '';
@@ -576,6 +582,10 @@ a { color: inherit; text-decoration: none; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem 3rem;
+  min-width: 0;
+}
+.card-body > * {
+  min-width: 0;
 }
 .full-width { grid-column: 1 / -1; }
 .summary-text {
