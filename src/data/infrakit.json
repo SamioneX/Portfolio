@@ -1,71 +1,88 @@
 {
   "meta": {
     "slug": "infrakit",
-    "status": "in-progress",
-    "completed_month": "TBD",
-    "duration_weeks": null,
+    "status": "live",
+    "completed_month": "Mar 2026",
+    "duration_weeks": "1",
     "team_size": "Solo",
-    "featured": false
+    "featured": true
   },
-
   "header": {
     "title": "InfraKit",
-    "subtitle": "Self-service infrastructure provisioning platform with policy-as-code guardrails",
+    "subtitle": "Production‑grade AWS infra CLI with schema validation & state",
     "live_url": null,
-    "github_url": null
+    "github_url": "https://github.com/SamioneX/InfraKit"
   },
-
   "summary": {
-    "plain_english": "A developer portal that lets engineers provision AWS infrastructure — VPCs, RDS instances, S3 buckets, and more — through a web UI without needing AWS console access. Every resource request is validated against a policy engine before deployment, ensuring cost caps, tagging standards, and security baselines are enforced automatically."
+    "plain_english": "A command‑line tool that lets developers describe AWS infrastructure in a simple YAML file and deploy it with one command, making complex CloudFormation/CDK setups feel like Terraform."
   },
-
   "motivation": {
-    "quote": "I wanted to understand how platform engineering teams abstract cloud complexity away from developers while still enforcing governance. Building the guardrails layer — policy evaluation, drift detection, approval workflows — is where the real engineering challenge lives."
+    "quote": "I built InfraKit to prove I could design and ship a real infrastructure product with schema validation, idempotent state and CI/CD—not just throw together some CloudFormation scripts."
   },
-
   "architecture": {
     "diagram_path": null,
-    "diagram_alt": "InfraKit architecture diagram",
-    "flow_summary": "React UI → API Gateway → Lambda (policy eval) → Step Functions → CDK deploy → DynamoDB state store → SNS notifications"
+    "diagram_alt": null,
+    "flow_summary": "YAML → Pydantic validation → dependency DAG → plan/apply engine → AWS via singleton session"
   },
-
   "highlights": {
     "items": [
-      "Engineers provision AWS resources through a web UI without needing AWS console access — every request is validated against OPA (Open Policy Agent) rules at the API boundary before any infrastructure is touched, blocking non-compliant configs (missing tags, oversized instances, wrong region) automatically",
-      "High-impact resource changes require human approval before deployment — Step Functions orchestrates a multi-stage workflow with a human-in-the-loop pause for sensitive resources like VPCs and RDS instances; the state machine waits for sign-off before invoking CDK deploy, producing a clear approval audit trail",
-      "Estimated monthly cost is shown before every request is approved — the platform calls the AWS Pricing API at request time and surfaces a cost projection to the approver, making budget impact visible before infrastructure is provisioned rather than after",
-      "Unauthorized infrastructure changes are automatically detected — a scheduled Lambda compares live CloudFormation stack state against the desired state in DynamoDB; any drift caused by direct console edits or out-of-band API calls triggers an SNS alert before it can compound",
-      "The platform deploys itself with OIDC-authenticated GitHub Actions — no static AWS credentials are stored anywhere; the pipeline assumes a scoped IAM role via short-lived OIDC tokens, applying the same zero-credential standard it enforces for all user-requested infrastructure"
+      "Deploy any stack from a terse YAML file — custom CLI (Typer/Rich) — zero boilerplate for end users",
+      "Validate configuration before touching AWS — Pydantic v2 schema — catches errors early",
+      "Maintain distributed state with locking — S3 + DynamoDB backend — safe concurrent runs",
+      "Show dry‑run diffs and enforce rollback on failure — plan/apply engine — prevents partial deployments",
+      "Ship as pip package, Docker image and optional Homebrew formula — modern packaging — usable in under 60 s"
     ]
   },
-
   "metrics": {
     "items": [
-      { "value": "", "label": "Resource types supported" },
-      { "value": "", "label": "Policy rules enforced" },
-      { "value": "$0", "label": "Always-on compute cost" },
-      { "value": "", "label": "Deployment time" }
+      { "value": "90%+", "label": "Test coverage" },
+      { "value": "<12s", "label": "Init-to-deploy time" },
+      { "value": "1 YAML", "label": "Deployment input" },
+      { "value": "0 AWS creds", "label": "Tests require" }
     ]
   },
-
   "stack": {
-    "aws": ["Lambda", "Step Functions", "API Gateway", "DynamoDB", "SNS", "CloudFormation", "CDK", "IAM", "Pricing API"],
-    "languages": ["TypeScript", "Python"],
-    "frameworks_tools": ["React", "Open Policy Agent", "Vite", "GitHub Actions"],
-    "concepts_patterns": ["Policy-as-code", "IaC", "OIDC federation", "Drift detection", "Event-driven"]
+    "aws": [
+      "Lambda",
+      "API Gateway",
+      "DynamoDB",
+      "S3",
+      "IAM",
+      "ECS Fargate",
+      "ElastiCache",
+      "ALB",
+      "CloudWatch"
+    ],
+    "languages": [
+      "Python"
+    ],
+    "frameworks_tools": [
+      "Typer",
+      "Pydantic",
+      "moto",
+      "pytest",
+      "Rich"
+    ],
+    "concepts_patterns": [
+      "Infrastructure as code",
+      "Remote state",
+      "Dependency DAG",
+      "Idempotency"
+    ]
   },
-
   "challenges": {
     "items": [
-      "OPA integration with Lambda — embedding the OPA WASM binary inside a Lambda layer required careful bundle size management and cold-start profiling to keep policy evaluation under 200ms",
-      "Step Functions error handling — designing idempotent state machine steps that can be safely retried after a partial failure required explicit input/output schemas and careful use of ResultPath",
-      "Cross-account deployment — provisioning resources in target accounts required a hub-and-spoke IAM role assumption pattern with scoped trust policies per account"
+      "Validating a rich YAML schema without forcing users to write verbose JSON required a custom Pydantic model and custom `!ref` syntax parser.",
+      "Building a dependency graph capable of detecting circular references took multiple iterations and thorough unit tests.",
+      "Designing the state backend to support both local files and S3+DynamoDB locking meant abstracting the storage layer early.",
+      "Ensuring every AWS call could be mocked with moto was tricky—some providers needed wrapper stubs and careful error handling.",
+      "What I'd do differently: add a higher‑level plugin system sooner so new resource types can be added without touching core logic."
     ]
   },
-
   "demo": {
-    "screenshot_paths": null,
+    "screenshot_paths": [],
     "video_demo_url": null,
-    "readme_url": null
+    "sample_usage_url": "https://assets.sokech.com/infrakit/sample-usage.md",
+    "readme_url": "https://github.com/SamioneX/InfraKit/blob/main/README.md"
   }
 }
