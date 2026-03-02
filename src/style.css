@@ -653,20 +653,15 @@ a { color: inherit; text-decoration: none; }
 }
 .arch-diagram {
   grid-column: 1 / -1;
-  background: var(--subtle);
   border: 1px solid var(--border);
   border-radius: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  aspect-ratio: 16 / 9;
-  max-height: 400px;
 }
 .arch-diagram img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
+  display: block;
   border-radius: 2px;
   border: none;
 }
