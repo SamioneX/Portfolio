@@ -65,8 +65,18 @@ export function renderSampleUsageModal(markdownHtml, projectTitle) {
  * @param {HTMLElement} modalElement - Modal element returned from renderSampleUsageModal
  */
 export function openModal(modalElement) {
-  // Ensure modal is a direct child of document.body for fixed positioning
-  // Remove from any previous parent and append to document.body
+  // Ensure modal is a direct child of document.body for fixed positioning to work correctly.
+  //
+  // Fixed positioning (`position: fixed`) positions elements relative to the viewport by default,
+  // but if the modal is nested inside another element, it becomes positioned relative to that
+  // ancestor instead. This causes:
+  // 1. Flexbox centering to calculate based on the card's dimensions, not the viewport
+  // 2. The overlay to only cover the card area, not the entire screen
+  // 3. Z-index layering issues due to the card's stacking context
+  //
+  // SOLUTION: Reparent the modal to be a direct child of document.body before opening.
+  // This ensures position: fixed always refers to the viewport, allowing proper centering
+  // and fullscreen overlay behavior.
   if (modalElement.parentElement !== document.body) {
     if (modalElement.parentElement) {
       modalElement.remove()

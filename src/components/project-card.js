@@ -181,7 +181,18 @@ export async function renderProjectCard(data, index = 0) {
         })
 
         if (previewBlock) {
-          // Create modal element (don't append yet — openModal will append to document.body)
+          // Create modal element — IMPORTANT: DO NOT APPEND TO CARD BODY
+          //
+          // Modals use `position: fixed` for centering and fullscreen overlay.
+          // If appended as a child of the card's body element, the fixed positioning
+          // becomes relative to the card's position (not the viewport). This breaks:
+          // 1. Centering calculations (flexbox aligns relative to card, not viewport)
+          // 2. Z-stacking and overlay behavior (card's z-index context interferes)
+          // 3. Layout reflow (especially on first open when content dimensions aren't cached)
+          //
+          // SOLUTION: Create modal in memory, keep it detached from the card.
+          // openModal() will ensure it's a direct child of document.body before making
+          // it visible, ensuring proper fixed positioning and centering on all clicks.
           const modal = renderSampleUsageModal(markdownHtml, header.title)
 
           // Add preview card with click handler
