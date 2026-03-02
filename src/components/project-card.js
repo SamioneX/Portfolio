@@ -142,7 +142,23 @@ export function renderProjectCard(data, index = 0) {
     `
   }
 
-  // 8. Screenshots carousel (full-width, optional)
+  // 8. Video demo (full-width, optional)
+  const videoUrl = demo?.video_demo_url
+  if (videoUrl) {
+    body.innerHTML += `
+      <div class="full-width">
+        <p class="section-label">Demo</p>
+        <video
+          src="${videoUrl}"
+          controls
+          preload="metadata"
+          style="width: 100%; border-radius: 0.5rem; background: #0a0a0a;"
+        ></video>
+      </div>
+    `
+  }
+
+  // 9. Screenshots carousel (full-width, optional)
   const shots = demo?.screenshot_paths
   if (Array.isArray(shots) && shots.length) {
     body.innerHTML += `
