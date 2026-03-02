@@ -65,8 +65,12 @@ export function renderSampleUsageModal(markdownHtml, projectTitle) {
  * @param {HTMLElement} modalElement - Modal element returned from renderSampleUsageModal
  */
 export function openModal(modalElement) {
-  // Add to DOM if not already there
-  if (!modalElement.parentElement) {
+  // Ensure modal is a direct child of document.body for fixed positioning
+  // Remove from any previous parent and append to document.body
+  if (modalElement.parentElement !== document.body) {
+    if (modalElement.parentElement) {
+      modalElement.remove()
+    }
     document.body.appendChild(modalElement)
   }
 

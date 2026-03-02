@@ -181,9 +181,8 @@ export async function renderProjectCard(data, index = 0) {
         })
 
         if (previewBlock) {
-          // Create modal element
+          // Create modal element (don't append yet — openModal will append to document.body)
           const modal = renderSampleUsageModal(markdownHtml, header.title)
-          body.appendChild(modal)
 
           // Add preview card with click handler
           const previewDiv = document.createElement('div')
