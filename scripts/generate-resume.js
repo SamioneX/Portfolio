@@ -21,6 +21,18 @@ const dataDir = resolve(root, 'src/data')
 const _months = { Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11 }
 const parseMonth = str => { const [m, y] = (str ?? '').split(' '); return _months[m] !== undefined ? new Date(+y, _months[m]) : null }
 const statusRank = s => s === 'live' ? 0 : 1
+
+// scoring matches projects.js to prioritise richer demos
+function projectScore(proj) {
+  let pts = 0
+  if (proj.header?.live_url) pts++
+  if (proj.header?.github_url) pts++
+  if (Array.isArray(proj.header?.other_links) && proj.header.other_links.length) pts++
+  const demo = proj.demo || {}
+  if ((Array.isArray(demo.screenshot_paths) && demo.screenshot_paths.length) || demo.video_demo_url || demo.sample_usage_url) pts++
+  return pts
+}
+
 const projects = readdirSync(dataDir)
   .filter(f => f.endsWith('.json') && !f.startsWith('_') && f !== 'site.json')
   .map(f => JSON.parse(readFileSync(resolve(dataDir, f), 'utf8')))
@@ -28,6 +40,9 @@ const projects = readdirSync(dataDir)
   .sort((a, b) => {
     const byStatus = statusRank(a.meta.status) - statusRank(b.meta.status)
     if (byStatus !== 0) return byStatus
+    const sa = projectScore(a)
+    const sb = projectScore(b)
+    if (sb !== sa) return sb - sa
     const da = parseMonth(a.meta.completed_month), db = parseMonth(b.meta.completed_month)
     return (da && db) ? db - da : 0
   })

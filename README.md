@@ -182,6 +182,16 @@ Edit [`src/data/site.json`](src/data/site.json). Fields: `hero`, `about`, `exper
 4. Upload assets if you have them (see below).
 5. Commit and push — the card appears automatically.
 
+### Ordering rules
+Projects are sorted on the page so that live work appears first and the most interactive demos lead. The order within each status bucket is determined by a simple point system:
+
+1. +1 if the project has a **live_url**
+2. +1 if it specifies a **GitHub repo URL**
+3. +1 if it provides any **other_links** entries
+4. +1 if it includes at least one demo asset (`screenshot_paths`, `video_demo_url`, or `sample_usage_url`)
+
+Higher‑scoring cards appear earlier; ties fall back to the `completed_month` date, most recent first.
+
 **Null/empty field behaviour (no code changes needed):**
 
 | Field | When null/empty |
