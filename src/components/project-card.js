@@ -49,7 +49,7 @@ export async function renderProjectCard(data, index = 0) {
   const otherBtns = Array.isArray(header.other_links)
     ? header.other_links.map(l => {
         if (!l || !l.url || !l.title) return ''
-        return `<a href="${l.url}" class="link-btn ghost" target="_blank" rel="noopener">${l.title}</a>`
+        return `<a href="${l.url}" class="link-btn ghost" target="_blank" rel="noopener">${l.title} →</a>`
       }).join('')
     : ''
 
