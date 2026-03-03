@@ -11,7 +11,8 @@
     "title": "InfraKit",
     "subtitle": "Production‑grade AWS infra CLI with schema validation & state",
     "live_url": null,
-    "github_url": "https://github.com/SamioneX/InfraKit"
+    "github_url": null,
+    "other_links": [{"title": "PyPI","url": "https://pypi.org/project/sokech-infrakit/"}]
   },
   "summary": {
     "plain_english": "A command‑line tool that lets developers describe AWS infrastructure in a simple YAML file and deploy it with one command, making complex CloudFormation/CDK setups feel like Terraform."
@@ -38,7 +39,7 @@
       { "value": "90%+", "label": "Test coverage" },
       { "value": "<12s", "label": "Init-to-deploy time" },
       { "value": "1 YAML", "label": "Deployment input" },
-      { "value": "0 AWS creds", "label": "Tests require" }
+      { "value": "2 Release Methods", "label": "Delivery methods" }
     ]
   },
   "stack": {

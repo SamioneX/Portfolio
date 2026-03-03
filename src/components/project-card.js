@@ -45,6 +45,14 @@ export async function renderProjectCard(data, index = 0) {
     ? `<a href="${header.github_url}" class="link-btn ghost" target="_blank" rel="noopener">GitHub →</a>`
     : ''
 
+  // custom extra links (array of {title,url}) rendered as ghost buttons
+  const otherBtns = Array.isArray(header.other_links)
+    ? header.other_links.map(l => {
+        if (!l || !l.url || !l.title) return ''
+        return `<a href="${l.url}" class="link-btn ghost" target="_blank" rel="noopener">${l.title}</a>`
+      }).join('')
+    : ''
+
   const cardHeader = document.createElement('header')
   cardHeader.className = 'card-header'
   cardHeader.innerHTML = `
@@ -57,6 +65,7 @@ export async function renderProjectCard(data, index = 0) {
     <div class="header-links">
       ${liveBtn}
       ${githubBtn}
+      ${otherBtns}
     </div>
   `
   card.appendChild(cardHeader)

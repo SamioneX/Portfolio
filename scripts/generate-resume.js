@@ -75,9 +75,16 @@ function renderProjectEntries() {
     const date = p.meta.status === 'live'
       ? esc(p.meta.completed_month ?? '')
       : 'In Progress'
+    const extra = (p.header.other_links || []).map(l => {
+      return l && l.title && l.url
+        ? `${esc(l.title)}: <a href="${esc(l.url)}">${esc(l.url.replace(/^https?:\/\//, ''))}</a>`
+        : null
+    }).filter(Boolean)
+
     const links = [
       p.header.live_url ? `Live: <a href="${esc(p.header.live_url)}">${esc(p.header.live_url.replace(/^https?:\/\//, ''))}</a>` : null,
       p.header.github_url ? `Source: <a href="${esc(p.header.github_url)}">${esc(p.header.github_url.replace(/^https?:\/\/(www\.)?github\.com\//, 'github.com/'))}</a>` : null,
+      ...extra
     ].filter(Boolean).join(' &nbsp;·&nbsp; ')
     const bullets = (p.highlights?.items ?? []).slice(0, 3)
     return `

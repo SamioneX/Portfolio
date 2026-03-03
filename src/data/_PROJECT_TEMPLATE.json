@@ -24,7 +24,8 @@
     "title":     "REQUIRED | Short, memorable name. e.g. 'CloudClips'",
     "subtitle":  "REQUIRED | One sentence — what kind of system is it? Include the 2-3 most impressive technical adjectives. e.g. 'Serverless short-video platform with AI content moderation'",
     "live_url":  "REQUIRED if live | Full URL. e.g. 'https://cloudclips.sokech.com'. Use null if not live.",
-    "github_url":"RECOMMENDED | Full GitHub repo URL. Use null if private."
+    "github_url":"RECOMMENDED | Full GitHub repo URL. Use null if private.",
+    "other_links": "OPTIONAL | Array of objects with {title, url}. Rendered as extra header buttons (e.g. PyPI, Docs, NPM, etc.)"
   },
 
   "summary": {

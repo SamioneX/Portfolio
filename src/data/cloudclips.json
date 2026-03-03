@@ -12,7 +12,8 @@
     "title": "CloudClips",
     "subtitle": "Serverless short-video platform with AI content moderation and auto-generated captions",
     "live_url": "https://cloudclips.sokech.com",
-    "github_url": "https://github.com/SamioneX/CloudClips"
+    "github_url": "https://github.com/SamioneX/CloudClips",
+    "other_links": null
   },
 
   "summary": {

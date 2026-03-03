@@ -178,8 +178,9 @@ Edit [`src/data/site.json`](src/data/site.json). Fields: `hero`, `about`, `exper
    - `meta.status` — `"live"` (green badge) or `"in-progress"` (amber badge). Anything else hides the card.
    - `meta.completed_month` — e.g. `"Mar 2026"`. Used for sort order (most recent first).
    - `meta.slug` — must match the folder name used for assets (e.g. `"cloudclips"`)
-3. Upload assets if you have them (see below).
-4. Commit and push — the card appears automatically.
+3. If you have any non‑standard links (PyPI, docs, package registry, etc.) add an `other_links` array with objects `{title,url}`.
+4. Upload assets if you have them (see below).
+5. Commit and push — the card appears automatically.
 
 **Null/empty field behaviour (no code changes needed):**
 
@@ -187,6 +188,7 @@ Edit [`src/data/site.json`](src/data/site.json). Fields: `hero`, `about`, `exper
 |-------|----------------|
 | `header.live_url` | Live Demo button hidden |
 | `header.github_url` | GitHub button hidden |
+| `header.other_links` | Render each entry as an extra header button; leave blank for none |
 | `architecture.diagram_path` | Replaced by `flow_summary` text placeholder |
 | `metrics.items[].value` | That tile hidden |
 | `demo.screenshot_paths` | No screenshot carousel |

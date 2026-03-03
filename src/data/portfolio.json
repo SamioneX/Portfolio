@@ -12,7 +12,8 @@
     "title": "sokech.com",
     "subtitle": "Personal portfolio and resume site deployed on AWS S3 + CloudFront with automated CI/CD and a self-healing DNS automation layer",
     "live_url": "https://sokech.com",
-    "github_url": "https://github.com/SamioneX/Portfolio"
+    "github_url": "https://github.com/SamioneX/Portfolio",
+    "other_links": null
   },
 
   "summary": {
