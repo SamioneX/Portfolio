@@ -11,7 +11,7 @@
     "title": "InfraKit",
     "subtitle": "Production‑grade AWS infra CLI with schema validation & state",
     "live_url": null,
-    "github_url": null,
+    "github_url": "https://github.com/SamioneX/InfraKit",
     "other_links": [{"title": "PyPI","url": "https://pypi.org/project/sokech-infrakit/"}]
   },
   "summary": {
