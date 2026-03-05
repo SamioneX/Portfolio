@@ -182,6 +182,10 @@ Edit [`src/data/site.json`](src/data/site.json). Fields: `hero`, `about`, `exper
 4. Upload assets if you have them (see below).
 5. Commit and push — the card appears automatically.
 
+Project deep links are also supported:
+- Section: `https://sokech.com/#projects`
+- Specific project by slug: `https://sokech.com/#projects/<slug>` (example: `https://sokech.com/#projects/infrakit`)
+
 ### Ordering rules
 Projects are sorted on the page so that live work appears first and the most interactive demos lead. The order within each status bucket is determined by a simple point system:
 

@@ -8,6 +8,7 @@ import { renderProjects }       from './sections/projects.js'
 import { renderContact }        from './sections/contact.js'
 
 const app = document.getElementById('app')
+let projectsReady = false
 
 // Nav is fixed-position, inserted directly into body (before #app)
 document.body.insertBefore(renderNav(), app)
@@ -22,6 +23,8 @@ app.appendChild(renderCertifications())
 renderProjects().then(projectsSection => {
   app.appendChild(projectsSection)
   app.appendChild(renderContact())
+  projectsReady = true
+  scrollToHashTarget()
 })
 
 // ── Scroll-triggered reveal animation ─────────────────
@@ -35,5 +38,28 @@ function checkReveal() {
   })
 }
 
+function resolveHashTargetId(hash) {
+  if (!hash || hash === '#') return null
+  const value = decodeURIComponent(hash.replace(/^#/, ''))
+  if (value.startsWith('projects/')) {
+    const slug = value.slice('projects/'.length).trim()
+    return slug ? `project-${slug}` : null
+  }
+  return value
+}
+
+function scrollToHashTarget() {
+  const targetId = resolveHashTargetId(window.location.hash)
+  if (!targetId) return
+  const target = document.getElementById(targetId)
+  if (!target) return
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  checkReveal()
+}
+
 window.addEventListener('scroll', checkReveal, { passive: true })
+window.addEventListener('hashchange', () => {
+  if (!projectsReady) return
+  scrollToHashTarget()
+})
 checkReveal()

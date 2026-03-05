@@ -30,9 +30,12 @@ export async function renderProjectCard(data, index = 0) {
   const { meta, header, summary, motivation, architecture, highlights, metrics, stack, challenges, demo } = data
   const architectureDiagramPath = architecture?.diagram?.path
   const architectureDiagramAlt = architecture?.diagram?.alt ?? 'Architecture diagram'
+  const projectSlug = meta?.slug || `project-${index + 1}`
 
   const card = document.createElement('article')
   card.className = 'project-card reveal'
+  card.id = `project-${projectSlug}`
+  card.setAttribute('data-project-slug', projectSlug)
 
   // ── HEADER ────────────────────────────────────────────
   const statusBadge = meta.status === 'live'

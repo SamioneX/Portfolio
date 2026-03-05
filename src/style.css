@@ -525,6 +525,7 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   position: relative;
   width: 100%;
+  scroll-margin-top: 7rem;
 }
 .project-card img {
   max-width: 100%;
