@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "slug": "resilientmesh",
+    "status": "in-progress",
+    "completed_month": "Mar 2026",
+    "duration_weeks": "1",
+    "team_size": "Solo",
+    "featured": true
+  },
+  "header": {
+    "title": "Resilient Mesh",
+    "subtitle": "Chaos-resilient Java banking core with virtual-thread concurrency and production observability",
+    "live_url": null,
+    "github_url": "https://github.com/SamioneX/resilient-mesh",
+    "other_links": []
+  },
+  "summary": {
+    "plain_english": "A distributed banking backend simulation built to stay responsive during downstream failures and traffic spikes. It includes User, Wallet, and Transaction services with resilience controls, autoscaling-ready Kubernetes manifests, and a full metrics pipeline for incident diagnosis."
+  },
+  "motivation": {
+    "quote": "I built Resilient Mesh to show I can design Java services for real production conditions, not just happy-path APIs: failures, retries, backpressure, and operational visibility from day one."
+  },
+  "architecture": {
+    "diagram": {
+      "path": null,
+      "alt": "Resilient Mesh architecture showing user, wallet, and transaction services, Prometheus/Grafana observability, and EKS deployment with HPA"
+    },
+    "flow_summary": "Client request → transaction-service → wallet-service → user-service → resilience policies/fallbacks → metrics to Prometheus/Grafana"
+  },
+  "highlights": {
+    "items": [
+      "Serve high concurrent traffic with low thread overhead — Java 21 virtual threads (Project Loom) — avoids traditional thread-pool bottlenecks",
+      "Prevent cascading failures across dependencies — Resilience4j circuit breakers + retries with exponential backoff — keeps APIs responsive during partial outages",
+      "Expose runtime health and performance telemetry — Spring Actuator + Micrometer + Prometheus — enables fast triage of latency and JVM pressure",
+      "Run with production-safe Kubernetes defaults — requests/limits, readiness/liveness probes, JVM memory tuning — reduces OOM and startup instability",
+      "Scale elastically under load — HPA on CPU with path to custom Prometheus metrics — supports demand spikes without manual intervention"
+    ]
+  },
+  "metrics": {
+    "items": [
+      { "value": "3", "label": "Core services" },
+      { "value": "Java 21", "label": "Runtime baseline" },
+      { "value": "2-10", "label": "HPA range" },
+      { "value": "10s", "label": "Prom scrape interval" }
+    ]
+  },
+  "stack": {
+    "aws": [
+      "EKS",
+      "IAM"
+    ],
+    "languages": [
+      "Java",
+      "YAML"
+    ],
+    "frameworks_tools": [
+      "Spring Boot 3",
+      "Resilience4j",
+      "Micrometer",
+      "Prometheus",
+      "Grafana",
+      "Docker Compose",
+      "Kubernetes"
+    ],
+    "concepts_patterns": [
+      "Microservices",
+      "Circuit breaker",
+      "Retry with backoff",
+      "Fallbacks",
+      "Horizontal autoscaling",
+      "SRE observability"
+    ]
+  },
+  "challenges": {
+    "items": [
+      "Keeping inter-service calls resilient without hiding real errors required careful retry limits and fallback behavior so failures degrade gracefully instead of masking incidents.",
+      "Tuning JVM memory for containers forced tradeoffs between throughput and stability; resource limits and `MaxRAMPercentage` had to align to avoid eviction or OOM kills.",
+      "Designing health probes for startup and runtime separately was necessary to prevent Kubernetes from recycling healthy but warming pods too aggressively.",
+      "Balancing useful portfolio scope against production realism meant prioritizing failure handling and observability before deeper business features.",
+      "What I'd do differently: add a persistence layer and idempotency strategy earlier so concurrency and consistency behavior can be benchmarked under write-heavy load."
+    ]
+  },
+  "demo": {
+    "screenshot_paths": [],
+    "video_demo_url": null,
+    "sample_usage_url": null,
+    "readme_url": "https://github.com/SamioneX/resilient-mesh/blob/main/README.md"
+  }
+}
