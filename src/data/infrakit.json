@@ -22,8 +22,8 @@
   },
   "architecture": {
     "diagram": {
-      "path": "https://assets.sokech.com/infrakit/diagrams/infrakit_runtime_architecture.png",
-      "alt": "Architecture diagram showing CLI → AWS Services APIs → singleton AWS session → S3/DynamoDB state backend"
+      "path": "https://assets.sokech.com/infrakit/diagrams/arch-diagram.svg",
+      "alt": "InfraKit architecture diagram showing CLI, engine, providers, AWS resources, DNS providers, state backend, and SentinelAPI integration"
     },
     "flow_summary": "YAML → Pydantic validation → dependency DAG → plan/apply engine → AWS via singleton session"
   },
