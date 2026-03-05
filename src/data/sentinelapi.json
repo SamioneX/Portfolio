@@ -16,10 +16,6 @@
       {
         "title": "PyPI",
         "url": "https://pypi.org/project/sentinel-api/"
-      },
-      {
-        "title": "Architecture",
-        "url": "https://assets.sokech.com/sentinelapi/diagrams/arch-diagram.svg"
       }
     ]
   },
