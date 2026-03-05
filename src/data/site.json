@@ -17,7 +17,7 @@
     ],
     "stack": {
       "aws":      ["AWS Lambda", "S3", "CloudFront", "CDK", "DynamoDB", "SQS/SNS"],
-      "languages": ["Python", "Java", "TypeScript", "JavaScript", "Go", "Rust", "C/C++", "x86/x64 Assembly"],
+      "languages": ["Python", "Java", "C#", "TypeScript", "JavaScript", "Go", "Rust", "C/C++", "x86/x64 Assembly"],
       "tools":    ["React", "Node.js", "Docker", "PostgreSQL", "Git", "GitHub Actions", "Linux/Unix CLI", "gdb/lldb"],
       "concepts": ["Serverless", "Event-driven", "IaC", "REST APIs", "Systems Programming", "OS Internals", "Virtualization"]
     }
