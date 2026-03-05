@@ -199,7 +199,7 @@ Higher‑scoring cards appear earlier; ties fall back to the `completed_month` d
 | `header.live_url` | Live Demo button hidden |
 | `header.github_url` | GitHub button hidden |
 | `header.other_links` | Render each entry as an extra header button; leave blank for none |
-| `architecture.diagram_path` | Replaced by `flow_summary` text placeholder |
+| `architecture.diagram.path` | Replaced by `flow_summary` text placeholder |
 | `metrics.items[].value` | That tile hidden |
 | `demo.screenshot_paths` | No screenshot carousel |
 | `demo.video_demo_url` | No video embed |

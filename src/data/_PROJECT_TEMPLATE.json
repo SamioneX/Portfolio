@@ -1,5 +1,5 @@
 {
-  "_template_version": "1.0",
+  "_template_version": "1.1",
   "_instructions": {
     "how_to_use": "Duplicate this file, rename it to your project slug (e.g. infrakit.json), delete all keys starting with underscore, and fill in every field. Import the completed file into your portfolio build.",
     "field_guide": {
@@ -40,8 +40,10 @@
 
   "architecture": {
     "_note": "Describes the system design. The diagram is the most important artifact here.",
-    "diagram_path":  "RECOMMENDED | URL or relative path to architecture PNG/SVG. Use null to show placeholder.",
-    "diagram_alt":   "RECOMMENDED | Alt text for the diagram image.",
+    "diagram": {
+      "path": "RECOMMENDED | URL or relative path to architecture PNG/SVG. Use null to show placeholder.",
+      "alt":  "RECOMMENDED | Alt text for the diagram image."
+    },
     "flow_summary":  "REQUIRED | One-line data flow. Use → between steps."
   },
 

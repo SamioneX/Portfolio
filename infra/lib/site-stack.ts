@@ -34,6 +34,8 @@ export class SiteStack extends cdk.Stack {
       encryption: s3.BucketEncryption.S3_MANAGED,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     })
+    cdk.Tags.of(assetsBucket).add('sokech:resource-role', 'portfolio-assets')
+    cdk.Tags.of(assetsBucket).add('sokech:project', 'portfolio')
 
     // ── CloudFront: Site Distribution ──────────────────────────────────────
 

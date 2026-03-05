@@ -28,6 +28,8 @@ function extractFirstCodeBlock(html) {
  */
 export async function renderProjectCard(data, index = 0) {
   const { meta, header, summary, motivation, architecture, highlights, metrics, stack, challenges, demo } = data
+  const architectureDiagramPath = architecture?.diagram?.path
+  const architectureDiagramAlt = architecture?.diagram?.alt ?? 'Architecture diagram'
 
   const card = document.createElement('article')
   card.className = 'project-card reveal'
@@ -91,13 +93,13 @@ export async function renderProjectCard(data, index = 0) {
   `
 
   // 3. Architecture diagram (full-width)
-  if (architecture.diagram_path) {
+  if (architectureDiagramPath) {
     body.innerHTML += `
       <div class="full-width arch-diagram">
         <p class="section-label">Architecture</p>
         <img
-          src="${architecture.diagram_path}"
-          alt="${architecture.diagram_alt || 'Architecture diagram'}"
+          src="${architectureDiagramPath}"
+          alt="${architectureDiagramAlt}"
           loading="lazy"
         >
         ${architecture.flow_summary ? `<p class="arch-flow">${architecture.flow_summary}</p>` : ''}

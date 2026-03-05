@@ -39,7 +39,7 @@ Creates the full site infrastructure and wires up Cloudflare DNS.
 | Resource | Name / Details |
 |----------|---------------|
 | S3 — site bucket | `sokech-com-site` · private, OAC-protected, serves the portfolio |
-| S3 — assets bucket | `sokech-com-assets` · private, OAC-protected, serves project media |
+| S3 — assets bucket | `sokech-com-assets` · private, OAC-protected, serves project media · tagged `sokech:resource-role=portfolio-assets` and `sokech:project=portfolio` |
 | CloudFront — site dist | Aliases: `sokech.com`, `www.sokech.com` · HTTP/2+3 · TLS 1.2+ · OAC |
 | CloudFront — assets dist | Alias: `assets.sokech.com` · CORS headers · HTTP/2+3 |
 | IAM OIDC role | `sokech-github-actions-deploy` · scoped to `SamioneX/Portfolio` repo |
@@ -82,6 +82,30 @@ Upserts Cloudflare DNS CNAME records for all three domains on every CDK deploy. 
 
 **IAM grants:**
 - `secretsmanager:GetSecretValue` — scoped to `/sokech/cloudflare-token`
+
+---
+
+## Discover Assets Bucket By Tag (for other CI pipelines)
+
+```bash
+aws resourcegroupstaggingapi get-resources \
+  --resource-type-filters s3 \
+  --tag-filters Key=sokech:resource-role,Values=portfolio-assets Key=sokech:project,Values=portfolio \
+  --query 'ResourceTagMappingList[0].ResourceARN' \
+  --output text
+# arn:aws:s3:::sokech-com-assets
+```
+
+Then strip the ARN prefix to get the bucket name:
+
+```bash
+ASSETS_BUCKET_ARN="$(aws resourcegroupstaggingapi get-resources \
+  --resource-type-filters s3 \
+  --tag-filters Key=sokech:resource-role,Values=portfolio-assets Key=sokech:project,Values=portfolio \
+  --query 'ResourceTagMappingList[0].ResourceARN' \
+  --output text)"
+ASSETS_BUCKET="${ASSETS_BUCKET_ARN#arn:aws:s3:::}"
+```
 
 ---
 

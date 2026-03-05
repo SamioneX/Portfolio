@@ -25,8 +25,10 @@
   },
 
   "architecture": {
-    "diagram_path": "https://assets.sokech.com/portfolio/diagrams/portfolio-arch.png",
-    "diagram_alt": "Architecture diagram showing visitor traffic flowing through Cloudflare DNS CNAME Flattening to CloudFront, which serves content from a private S3 bucket via OAC. GitHub Actions uses OIDC to assume an IAM role for deployments. A Lambda-backed CDK custom resource provisions Cloudflare DNS CNAMEs automatically on every stack deploy.",
+    "diagram": {
+      "path": "https://assets.sokech.com/portfolio/diagrams/portfolio-arch.png",
+      "alt": "Architecture diagram showing visitor traffic flowing through Cloudflare DNS CNAME Flattening to CloudFront, which serves content from a private S3 bucket via OAC. GitHub Actions uses OIDC to assume an IAM role for deployments. A Lambda-backed CDK custom resource provisions Cloudflare DNS CNAMEs automatically on every stack deploy."
+    },
     "flow_summary": "Visitor → Cloudflare DNS (CNAME Flattening) → CloudFront (HTTPS, HTTP/2+3, OAC) → S3 private bucket | GitHub Actions → OIDC → IAM Role → S3 sync + CloudFront invalidation | CDK custom resource → Lambda → Cloudflare API → DNS CNAMEs"
   },
 

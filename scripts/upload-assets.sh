@@ -71,5 +71,5 @@ find "$STAGING_DIR" -type f -not -name ".DS_Store" | sort | while read -r f; do
 done
 
 echo ""
-echo "  Update screenshot_paths, diagram_path, and video_demo_url in src/data/${SLUG}.json"
+echo "  Update screenshot_paths, architecture.diagram.path, and video_demo_url in src/data/${SLUG}.json"
 echo "  then delete assets-staging/${SLUG}/ (it is gitignored)."
