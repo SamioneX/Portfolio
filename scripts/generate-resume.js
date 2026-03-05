@@ -47,8 +47,9 @@ const projects = readdirSync(dataDir)
     return (da && db) ? db - da : 0
   })
 
-const topProjects = projects.slice(0, 3)
-const hasMore = projects.length > 3
+const maxResumeProjects = 5
+const topProjects = projects.slice(0, maxResumeProjects)
+const hasMore = projects.length > maxResumeProjects
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 

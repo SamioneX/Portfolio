@@ -240,7 +240,7 @@ npm run generate-resume
 # → writes public/resume.pdf
 ```
 
-The PDF includes: name, contact links, bio, skills, experience, education, certifications, and the top 3 most recently completed projects. If there are more than 3 projects, a "More projects at sokech.com" line is added automatically.
+The PDF includes: name, contact links, bio, skills, experience, education, certifications, and the top 5 most recently completed projects. If there are more than 5 projects, a "More projects at sokech.com" line is added automatically.
 
 ---
 
