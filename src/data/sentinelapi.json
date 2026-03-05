@@ -1,74 +1,120 @@
 {
   "meta": {
-    "slug": "sentinel-api",
-    "status": "in-progress",
-    "completed_month": "TBD",
-    "duration_weeks": null,
+    "slug": "sentinelapi",
+    "status": "live",
+    "completed_month": "Mar 2026",
+    "duration_weeks": 2,
     "team_size": "Solo",
-    "featured": false
+    "featured": true
   },
-
   "header": {
     "title": "SentinelAPI",
-    "subtitle": "Intelligent API gateway with ML-powered anomaly detection and automated threat response",
+    "subtitle": "Cloud-native intelligent API gateway with JWT auth, adaptive rate limiting, and anomaly-driven auto-blocking",
     "live_url": null,
-    "github_url": null,
-    "other_links": null
+    "github_url": "https://github.com/SamioneX/SentinelAPI",
+    "other_links": [
+      {
+        "title": "PyPI",
+        "url": "https://pypi.org/project/sentinel-api/"
+      },
+      {
+        "title": "Architecture",
+        "url": "https://assets.sokech.com/sentinelapi/diagrams/arch-diagram.svg"
+      }
+    ]
   },
-
   "summary": {
-    "plain_english": "An API gateway layer that sits in front of any backend service and learns normal traffic patterns using machine learning. When requests deviate from baseline — unusual volumes, geographic anomalies, credential-stuffing patterns — the system automatically rate-limits, blocks, or escalates the threat without human intervention."
+    "plain_english": "SentinelAPI sits in front of an existing backend and adds authentication, abuse protection, and traffic intelligence without requiring backend code changes. It is designed for teams that want a production-style API edge with strong defaults and clear operational controls."
   },
-
   "motivation": {
-    "quote": "Most API security tooling is rule-based and brittle — you write a rule, attackers adapt, you update the rule. I wanted to build something that detects novel attack patterns by learning what normal looks like, then flagging deviations. That requires marrying real-time stream processing with ML inference at the edge."
+    "quote": "I wanted to build the kind of gateway layer teams usually adopt only after abuse incidents, and package it so developers can deploy it quickly either from Python or InfraKit."
   },
-
   "architecture": {
     "diagram": {
-      "path": null,
-      "alt": "SentinelAPI architecture diagram"
+      "path": "https://assets.sokech.com/sentinelapi/diagrams/arch-diagram.svg",
+      "alt": "SentinelAPI architecture with ALB, ECS gateway, Redis rate limiting, DynamoDB telemetry, and scheduled anomaly detection with auto-blocking"
     },
-    "flow_summary": "Client → CloudFront → API Gateway → Lambda authorizer → Kinesis stream → ML inference (SageMaker) → WAF rule updates → DynamoDB threat log"
+    "flow_summary": "Client request → ALB → ECS Sentinel gateway (JWT + rate limit + proxy) → upstream API, with telemetry in DynamoDB and anomaly detection Lambda auto-blocking suspicious users."
   },
-
   "highlights": {
     "items": [
-      "Every incoming API request is scored for anomalies before it reaches the origin — a Lambda authorizer loads a lightweight model from a Lambda layer and runs inline inference, adding under 15ms to the request path while blocking high-confidence threats at the gateway",
-      "Request traffic is streamed continuously for asynchronous ML analysis — metadata for every request (IP, endpoint, latency, status code) is published to Kinesis Data Streams at ingest time, decoupling collection from inference so high-traffic bursts never stall the request path",
-      "Novel attack patterns are detected without predefined rules — a SageMaker-hosted Isolation Forest model trained on historical traffic baselines identifies statistical outliers in the Kinesis stream; new attack signatures are flagged even if they've never been seen before",
-      "Confirmed threat IPs are automatically blocked at the CloudFront edge — a Lambda consumer writes high-confidence anomalies to a WAF IP set on a fixed batching schedule, cutting off malicious traffic before it reaches API Gateway with no manual intervention",
-      "Alerts are severity-tiered to keep operator noise low — low-confidence anomalies are written to DynamoDB for scheduled review; high-confidence threats immediately trigger SNS alerts to an ops topic so on-call engineers are only paged for events that require action"
+      "Protects existing APIs without backend rewrites — FastAPI reverse-proxy gateway on ECS Fargate — lets teams add edge security while keeping application code unchanged.",
+      "Enforces authenticated access and identity-aware throttling — JWT validation plus Redis token-bucket controls — blocks unauthenticated calls and limits abusive bursts per user.",
+      "Detects suspicious traffic patterns automatically — scheduled Lambda anomaly detector on DynamoDB aggregates — flags spikes and can auto-block offending user IDs.",
+      "Supports two developer adoption paths — Python deploy library and InfraKit `sentinelapi` resource — fits both app code workflows and IaC-first workflows.",
+      "Publishes architecture and usage assets automatically — GitHub Actions + OIDC + S3/CloudFront asset pipeline — keeps portfolio documentation synced with the latest code."
     ]
   },
-
   "metrics": {
     "items": [
-      { "value": "", "label": "p99 authorizer latency" },
-      { "value": "", "label": "False positive rate" },
-      { "value": "$0", "label": "Idle cost" },
-      { "value": "", "label": "Threat response time" }
+      {
+        "value": "15 min",
+        "label": "Anomaly cadence"
+      },
+      {
+        "value": "3",
+        "label": "JWT modes"
+      },
+      {
+        "value": "2",
+        "label": "Deploy paths"
+      },
+      {
+        "value": "1",
+        "label": "Repo-to-PyPI flow"
+      }
     ]
   },
-
   "stack": {
-    "aws": ["Lambda", "API Gateway", "CloudFront", "WAF", "Kinesis", "SageMaker", "DynamoDB", "SNS", "S3", "CDK"],
-    "languages": ["Python", "TypeScript"],
-    "frameworks_tools": ["scikit-learn", "AWS SDK", "GitHub Actions"],
-    "concepts_patterns": ["Anomaly detection", "Real-time streaming", "Edge security", "ML inference", "Event-driven", "IaC"]
+    "aws": [
+      "Amazon ECS Fargate",
+      "Application Load Balancer",
+      "Amazon ElastiCache (Redis)",
+      "Amazon DynamoDB",
+      "AWS Lambda",
+      "Amazon EventBridge",
+      "Amazon SNS",
+      "AWS CloudFormation",
+      "Amazon ECR Public",
+      "Amazon S3",
+      "Amazon CloudFront",
+      "AWS IAM"
+    ],
+    "languages": [
+      "Python",
+      "Bash",
+      "YAML"
+    ],
+    "frameworks_tools": [
+      "FastAPI",
+      "Uvicorn",
+      "InfraKit",
+      "GitHub Actions",
+      "PyPI"
+    ],
+    "concepts_patterns": [
+      "API Gateway",
+      "Reverse Proxy",
+      "Token Bucket Rate Limiting",
+      "Anomaly Detection",
+      "IaC",
+      "CI/CD",
+      "OIDC Federation"
+    ]
   },
-
   "challenges": {
     "items": [
-      "Cold start latency for the Lambda authorizer — loading an ML model from S3 on every cold start added 800ms+ of latency. Solved by packaging the model into a Lambda layer and keeping the function warm with provisioned concurrency for the critical path",
-      "Feature engineering at stream time — converting raw request logs into model-ready features (rolling averages, geo-distance deltas, endpoint entropy) required stateful aggregation inside the Kinesis consumer, which complicated exactly-once processing guarantees",
-      "WAF rule update rate limits — AWS WAF imposes update frequency limits on IP sets. Batching threat IPs and applying updates on a fixed schedule (rather than per-event) was necessary to avoid throttling during attack bursts"
+      "Container startup failed on ECS with `exec format error`; root cause was architecture mismatch, fixed by publishing multi-arch gateway images and pinning deploy image selection.",
+      "Lambda Function URL behind Sentinel returned 403 during proxy smoke tests; resolved by ensuring Function URL invoke permissions were correctly provisioned in InfraKit.",
+      "CI workflows could leak temporary stacks during cancellations; solved with deterministic run-scoped names and cleanup workflows that tear down by run ID.",
+      "Automated diagram rendering failed in GitHub Actions due to Puppeteer sandbox restrictions; fixed by adding a no-sandbox Puppeteer config for Mermaid CLI.",
+      "What I'd do differently: add a managed, first-class observability dashboard package (alarms + Grafana board templates) as part of the default deployment output."
     ]
   },
-
   "demo": {
-    "screenshot_paths": null,
+    "screenshot_paths": [],
     "video_demo_url": null,
-    "readme_url": null
+    "sample_usage_url": "https://assets.sokech.com/sentinelapi/sample-usage.md",
+    "readme_url": "https://github.com/SamioneX/SentinelAPI#readme"
   }
 }
