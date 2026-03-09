@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "slug": "conduit",
+    "status": "live",
+    "completed_month": "Mar 2026",
+    "duration_weeks": 2,
+    "team_size": "Solo",
+    "featured": true
+  },
+
+  "header": {
+    "title": "Conduit",
+    "subtitle": "Real-time e-commerce analytics pipeline with Kafka Streams, Parquet data lake, and automated ECS deployment",
+    "live_url": null,
+    "github_url": "https://github.com/SamioneX/Conduit",
+    "other_links": null
+  },
+
+  "summary": {
+    "plain_english": "A streaming data pipeline that simulates millions of e-commerce user actions (page views, cart adds, purchases), processes them in real time, and lands analytics-ready files in a cloud data lake — where business teams can query conversion funnels, trending products, and traffic patterns using plain SQL. The entire system is deployed automatically on every code push."
+  },
+
+  "motivation": {
+    "quote": "I wanted to build a production-realistic streaming pipeline end-to-end — not just the Kafka consumer, but the full loop: event generation, real-time processing, columnar storage, SQL analytics, containerized deployment, and CI/CD. Most portfolio projects stop at 'consume from Kafka and print'; this one goes all the way to queryable business insights."
+  },
+
+  "architecture": {
+    "diagram": {
+      "path": "https://assets.sokech.com/conduit/diagrams/arch-diagram.svg",
+      "alt": "Architecture diagram showing Java producer sending events to Confluent Cloud Kafka, consumed by a Kafka Streams processor on ECS Fargate that branches events into purchase and browsing Parquet files on S3, queryable via Athena with Glue partition projection"
+    },
+    "flow_summary": "Event Producer (Java) → Confluent Cloud Kafka → Kafka Streams Processor (ECS Fargate) → filter → enrich → branch → Parquet on S3 (Hive partitioned) → Athena SQL"
+  },
+
+  "highlights": {
+    "items": [
+      "Raw event stream is filtered, enriched, and split by category in real time — Kafka Streams topology with filter, mapValues, and split/branch operators — malformed events are dropped before they reach storage, and purchases are separated from browsing for independent analysis",
+      "Analytics data lands in a columnar format optimized for SQL queries — Apache Parquet with Snappy compression written via Avro, partitioned by event category, year, month, day, and hour — Athena scans only the columns and time ranges needed, keeping query costs minimal",
+      "New partitions are queryable immediately with no manual catalog maintenance — Glue table uses Athena partition projection to resolve Hive-style paths dynamically — no MSCK REPAIR TABLE or scheduled crawlers needed as new data arrives",
+      "Events are buffered in memory and flushed on a schedule to avoid per-event S3 writes — custom S3Sink with configurable flush interval and batch size, lock-free concurrent buffers — balances data freshness against S3 API costs and small-file overhead",
+      "The processor deploys automatically on every merge to main with no stored credentials — GitHub Actions authenticates to AWS via OIDC federation, builds and pushes to ECR, then triggers an ECS rolling redeployment — the full deploy completes in under 4 minutes",
+      "All AWS infrastructure is provisioned from code with no console clicks — Terraform manages S3, Glue, Athena, ECS, ECR, IAM, and CloudWatch with remote S3 state and DynamoDB locking — any environment can be recreated from scratch with a single apply"
+    ]
+  },
+
+  "metrics": {
+    "items": [
+      {
+        "value": "24",
+        "label": "AWS resources provisioned"
+      },
+      {
+        "value": "<4 min",
+        "label": "Deploy time (merge to live)"
+      },
+      {
+        "value": "5",
+        "label": "Hive partition levels"
+      },
+      {
+        "value": "0",
+        "label": "Stored AWS credentials"
+      }
+    ]
+  },
+
+  "stack": {
+    "aws": ["S3", "Athena", "Glue", "ECS Fargate", "ECR", "CloudWatch", "IAM"],
+    "languages": ["Java 17", "HCL", "SQL"],
+    "frameworks_tools": ["Kafka Streams", "Apache Parquet", "Avro", "Gradle", "Docker", "Terraform", "GitHub Actions"],
+    "concepts_patterns": ["Stream processing", "Data lake", "Hive partitioning", "Partition projection", "OIDC federation", "IaC", "CI/CD", "Event-driven"]
+  },
+
+  "challenges": {
+    "items": [
+      "Docker image platform mismatch: Images built on Apple Silicon (ARM) failed to start on ECS Fargate (AMD64) with a cryptic 'image Manifest does not contain descriptor matching platform' error. Fixed by adding --platform linux/amd64 to the Docker build — a subtle issue that only surfaces at deploy time, not during local testing.",
+      "Gradle wrapper JARs excluded by gitignore: CI failed because *.jar in .gitignore blocked the Gradle wrapper JAR that the build tool itself needs to bootstrap. Fixed by adding an exception for **/gradle/wrapper/gradle-wrapper.jar and force-adding the files — the kind of issue that works locally but breaks in a clean CI checkout.",
+      "Terraform OIDC provider already existed: Running terraform apply failed because the GitHub OIDC identity provider was already registered in the AWS account from a previous project. Solved by importing the existing resource into Terraform state rather than trying to create a duplicate.",
+      "Balancing flush frequency vs. small-file overhead: Flushing every event to S3 creates thousands of tiny Parquet files that degrade Athena query performance. Implemented a configurable buffered S3Sink that flushes on a timer or batch threshold — tunable per environment without code changes.",
+      "What I'd do differently: I'd add a dead-letter topic for events that fail enrichment instead of silently dropping them, and I'd use AWS Secrets Manager for Confluent credentials in the ECS task definition rather than passing them as plain environment variables."
+    ]
+  },
+
+  "demo": {
+    "screenshot_paths": null,
+    "video_demo_url": null,
+    "readme_url": "https://github.com/SamioneX/Conduit#readme"
+  }
+}
