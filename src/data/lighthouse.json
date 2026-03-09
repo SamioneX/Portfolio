@@ -12,12 +12,7 @@
     "subtitle": "High-performance Layer 4 reverse proxy and load balancer with event-driven I/O and production-style observability.",
     "live_url": null,
     "github_url": "https://github.com/SamioneX/Lighthouse",
-    "other_links": [
-      {
-        "title": "Architecture Diagram",
-        "url": "https://assets.sokech.com/lighthouse/diagrams/arch-diagram.svg"
-      }
-    ]
+    "other_links": null
   },
   "summary": {
     "plain_english": "Lighthouse is a TCP traffic router that sits in front of backend services and distributes incoming connections across healthy instances. It supports multiple balancing strategies, automatic backend failover, and metrics for operational visibility, similar to what a real infrastructure edge service needs."

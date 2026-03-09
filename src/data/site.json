@@ -19,7 +19,7 @@
       "aws":      ["AWS Lambda", "S3", "CloudFront", "CDK", "DynamoDB", "SQS/SNS", "API Gateway", "CloudWatch", "ECS Fargate", "ECR", "Athena", "EKS", "IAM", "RDS", "Rekognition"],
       "languages": ["Python", "Java", "C#", "TypeScript", "JavaScript", "Go", "Rust", "C/C++", "x86/x64 Assembly"],
       "tools":    ["React", "Node.js", "Docker", "Terraform", "Kafka", "PostgreSQL", "Git", "GitHub Actions", "Linux/Unix CLI", "gdb/lldb", "CMake", "Prometheus", "Grafana"],
-      "concepts": ["Serverless", "Event-driven", "Stream Processing", "Data Lake", "IaC", "REST APIs", "Systems Programming", "OS Internals", "Virtualization", "Load Balancing", "Reverse Proxy", "Asynchronous I/O", "Observability", "eBPF", "io_uring", "epoll"]
+      "concepts": ["Serverless", "Event-driven", "Stream Processing", "Data Lake", "IaC", "REST APIs", "Systems Programming", "OS Internals", "Virtualization", "Load Balancing", "Reverse Proxy", "Asynchronous I/O", "Observability"]
     }
   },
 
