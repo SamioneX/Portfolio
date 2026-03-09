@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "slug": "lighthouse",
+    "status": "live",
+    "completed_month": "Mar 2026",
+    "duration_weeks": 2,
+    "team_size": "Solo",
+    "featured": true
+  },
+  "header": {
+    "title": "Lighthouse",
+    "subtitle": "High-performance Layer 4 reverse proxy and load balancer with event-driven I/O and production-style observability.",
+    "live_url": null,
+    "github_url": "https://github.com/SamioneX/Lighthouse",
+    "other_links": [
+      {
+        "title": "Architecture Diagram",
+        "url": "https://assets.sokech.com/lighthouse/diagrams/arch-diagram.svg"
+      }
+    ]
+  },
+  "summary": {
+    "plain_english": "Lighthouse is a TCP traffic router that sits in front of backend services and distributes incoming connections across healthy instances. It supports multiple balancing strategies, automatic backend failover, and metrics for operational visibility, similar to what a real infrastructure edge service needs."
+  },
+  "motivation": {
+    "quote": "I built Lighthouse to prove I can design and implement the internals of infrastructure components like load balancers, not just configure them. I wanted a project that demonstrates systems programming depth, operational thinking, and production-style engineering discipline."
+  },
+  "architecture": {
+    "diagram": {
+      "path": "https://assets.sokech.com/lighthouse/diagrams/arch-diagram.svg",
+      "alt": "Architecture diagram of Lighthouse showing client traffic entering a listener, worker pool, load balancer, backend services, metrics pipeline, and eBPF telemetry flow."
+    },
+    "flow_summary": "Clients → Lighthouse listener/worker pool → balancing strategy (round robin or least connections) → backend services, with metrics exported to Prometheus/Grafana and optional eBPF telemetry feeding connect-failure signals."
+  },
+  "highlights": {
+    "items": [
+      "Routes TCP traffic across backend services with failover-aware balancing — C++23 worker pool plus round-robin and least-connections algorithms — keeps traffic flowing when a backend becomes unavailable.",
+      "Handles Linux high-concurrency I/O with event loops — native epoll and native io_uring modes — supports scalable connection handling on a single event-driven thread.",
+      "Exposes operational telemetry for production-style monitoring — built-in /metrics endpoint with Prometheus format plus Grafana example dashboard — enables quick visibility into queue depth, relayed traffic, and backend health.",
+      "Captures low-level connect-failure signals from inside the process — eBPF integration via bpftrace — surfaces kernel-level failure telemetry as first-class metrics.",
+      "Builds and tests reproducibly across environments — CMake + Conan + Ninja with CI on GCC/Clang and Catch2 tests — keeps setup predictable and catches regressions early."
+    ]
+  },
+  "metrics": {
+    "items": [
+      { "value": "3", "label": "Runtime modes" },
+      { "value": "2", "label": "Balancing strategies" },
+      { "value": "2", "label": "CI compilers" },
+      { "value": "100%", "label": "Current tests" }
+    ]
+  },
+  "stack": {
+    "aws": [],
+    "languages": [
+      "C++23",
+      "Bash",
+      "Python"
+    ],
+    "frameworks_tools": [
+      "CMake",
+      "Conan",
+      "Ninja",
+      "Catch2",
+      "clang-tidy",
+      "Prometheus",
+      "Grafana",
+      "eBPF",
+      "bpftrace"
+    ],
+    "concepts_patterns": [
+      "Layer 4 proxying",
+      "Load balancing",
+      "RAII",
+      "Asynchronous I/O",
+      "Observability",
+      "Failover"
+    ]
+  },
+  "challenges": {
+    "items": [
+      "Designing backend health behavior required careful tradeoffs between fast retry and avoiding failure storms; cooldown-based recovery gave predictable behavior under churn.",
+      "Integrating observability into a low-level networking service required exposing useful metrics without coupling core proxy paths to monitoring concerns.",
+      "Adding native io_uring while keeping code maintainable required strict Linux guards and clear mode boundaries so non-Linux builds remain stable.",
+      "In-process eBPF profiling added operational depth but introduced runtime prerequisites (Linux permissions and bpftrace availability) that needed explicit handling and documentation.",
+      "What I'd do differently: add a fully asynchronous proxy dataplane (not just async echo modes) and a deterministic integration test harness for Linux kernel-path features in CI."
+    ]
+  },
+  "demo": {
+    "screenshot_paths": null,
+    "video_demo_url": null,
+    "sample_usage_url": null,
+    "readme_url": "https://github.com/SamioneX/Lighthouse/blob/main/README.md"
+  }
+}
