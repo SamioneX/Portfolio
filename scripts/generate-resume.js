@@ -129,7 +129,12 @@ const html = `<!DOCTYPE html>
       font-size: 10pt;
     }
 
-    a { color: #111; text-decoration: none; }
+    a {
+      color: #0b57d0;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 1.5px;
+    }
     p { margin: 0; }
 
     .header {
