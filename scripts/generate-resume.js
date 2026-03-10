@@ -116,7 +116,7 @@ const html = `<!DOCTYPE html>
   <style>
     @page {
       size: A4;
-      margin: 0.35in;
+      margin: 0.38in;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -125,8 +125,8 @@ const html = `<!DOCTYPE html>
       font-family: Arial, Helvetica, sans-serif;
       color: #111;
       background: #fff;
-      line-height: 1.2;
-      font-size: 9.6pt;
+      line-height: 1.24;
+      font-size: 10pt;
     }
 
     a { color: #111; text-decoration: none; }
@@ -134,53 +134,53 @@ const html = `<!DOCTYPE html>
 
     .header {
       border-bottom: 2px solid #111;
-      padding-bottom: 8px;
-      margin-bottom: 10px;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
     }
     .name {
-      font-size: 19pt;
+      font-size: 20.5pt;
       font-weight: 700;
       letter-spacing: 0.02em;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
     .title {
-      font-size: 10.4pt;
+      font-size: 10.9pt;
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
     .contact {
-      font-size: 8.6pt;
+      font-size: 8.9pt;
       color: #333;
     }
 
     .summary {
-      font-size: 8.9pt;
-      margin-bottom: 10px;
+      font-size: 9.3pt;
+      margin-bottom: 12px;
     }
 
     .layout {
       display: grid;
       grid-template-columns: 1.7fr 1fr;
-      gap: 14px;
+      gap: 16px;
       align-items: start;
     }
 
     .section {
-      margin-bottom: 9px;
+      margin-bottom: 11px;
       page-break-inside: avoid;
     }
     .section-title {
-      font-size: 8.3pt;
+      font-size: 8.7pt;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       border-bottom: 1px solid #111;
       padding-bottom: 3px;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
     }
 
     .entry {
-      margin-bottom: 7px;
+      margin-bottom: 9px;
     }
     .entry-header {
       display: flex;
@@ -189,50 +189,50 @@ const html = `<!DOCTYPE html>
       align-items: baseline;
     }
     .entry-title {
-      font-size: 9.1pt;
+      font-size: 9.55pt;
       font-weight: 700;
     }
     .entry-date {
-      font-size: 8.2pt;
+      font-size: 8.55pt;
       color: #333;
       white-space: nowrap;
     }
     .entry-sub {
-      font-size: 8.3pt;
+      font-size: 8.75pt;
       color: #333;
-      margin-top: 1px;
-      margin-bottom: 2px;
+      margin-top: 2px;
+      margin-bottom: 3px;
     }
 
     .tight-list {
-      margin: 2px 0 0 13px;
+      margin: 3px 0 0 14px;
       padding: 0;
     }
     .tight-list li {
-      margin: 0 0 1px 0;
-      font-size: 8.45pt;
+      margin: 0 0 2px 0;
+      font-size: 8.8pt;
     }
 
     .skill-group {
-      font-size: 8.35pt;
-      margin-bottom: 3px;
+      font-size: 8.7pt;
+      margin-bottom: 4px;
     }
     .skill-label {
       font-weight: 700;
     }
 
     .edu-item {
-      margin-bottom: 7px;
+      margin-bottom: 8px;
     }
     .edu-detail {
-      font-size: 8.3pt;
-      margin-top: 2px;
+      font-size: 8.7pt;
+      margin-top: 3px;
     }
 
     .cert-line,
     .additional-projects {
-      font-size: 8.3pt;
-      line-height: 1.25;
+      font-size: 8.7pt;
+      line-height: 1.3;
     }
   </style>
 </head>
@@ -291,7 +291,7 @@ const pdf = await page.pdf({
   format: 'A4',
   preferCSSPageSize: true,
   printBackground: false,
-  margin: { top: '0.35in', right: '0.35in', bottom: '0.35in', left: '0.35in' }
+  margin: { top: '0.38in', right: '0.38in', bottom: '0.38in', left: '0.38in' }
 })
 await browser.close()
 
