@@ -72,10 +72,16 @@
           "Implemented a Layer 4 load balancer in C++ with event-driven I/O, backend failover, and production-style metrics.",
           "Used Linux systems tooling and low-level networking concepts to show depth beyond application-layer development."
         ]
+      },
+      {
+        "slug": "sentinelapi",
+        "bullets": [
+          "Built an intelligent API gateway with JWT auth, adaptive rate limiting, telemetry capture, and anomaly-driven auto-blocking.",
+          "Packaged the system for both Python and IaC-based adoption, with automated publishing and asset delivery through GitHub Actions OIDC."
+        ]
       }
     ],
     "additional": [
-      "sentinelapi",
       "conduit",
       "resilientmesh",
       "portfolio"
