@@ -231,7 +231,7 @@ mkdir -p assets-staging/yourproject/diagrams/
 
 ## Resume PDF
 
-Auto-generated at CI time from `src/data/site.json` and all project JSON files — never edit it manually.
+Auto-generated at CI time from `src/data/resume.json` plus selected project metadata — never edit it manually.
 
 To preview locally before pushing:
 
@@ -240,7 +240,7 @@ npm run generate-resume
 # → writes public/resume.pdf
 ```
 
-The PDF includes: name, contact links, bio, skills, experience, education, certifications, and the top 5 most recently completed projects. If there are more than 5 projects, a "More projects at sokech.com" line is added automatically.
+The PDF includes a resume-specific summary, compact skills, condensed experience, three featured projects, additional project links, education, and certifications. Website copy and resume copy are intentionally maintained separately.
 
 ---
 

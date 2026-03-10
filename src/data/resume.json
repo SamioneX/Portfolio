@@ -1,0 +1,102 @@
+{
+  "_note": "Resume-specific content for public/resume.pdf. Keep this concise; website copy lives elsewhere.",
+  "identity": {
+    "name": "Samuel Okechukwu",
+    "title": "Cloud & Software Engineer",
+    "location": "San Francisco Bay Area, CA",
+    "website": "https://sokech.com",
+    "email": "sam.okechukwu99@gmail.com",
+    "github": "https://github.com/SamioneX",
+    "linkedin": "https://www.linkedin.com/in/sokech"
+  },
+  "summary": "Early-career software engineer with enterprise experience at BlackRock and hands-on depth across cloud infrastructure, backend systems, and low-level programming. Builds production-oriented systems with AWS, CI/CD, observability, and IaC, with additional academic grounding in systems programming, operating systems, and assembly.",
+  "skills": [
+    {
+      "label": "Cloud",
+      "items": ["AWS", "CDK", "Terraform", "Docker", "Kubernetes", "CI/CD", "Observability"]
+    },
+    {
+      "label": "Languages",
+      "items": ["Python", "Java", "TypeScript", "C/C++", "Go", "Rust", "SQL"]
+    },
+    {
+      "label": "Systems",
+      "items": ["Linux/Unix", "Systems Programming", "OS Internals", "x86/x64 Assembly", "Virtualization"]
+    },
+    {
+      "label": "Data/Infra",
+      "items": ["Kafka", "PostgreSQL", "Redis", "S3", "DynamoDB", "ECS", "EKS"]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Software Engineer I",
+      "company": "BlackRock",
+      "location": "San Francisco, CA (Remote)",
+      "date": "Sep 2021 - Jan 2022",
+      "bullets": [
+        "Contributed features, bug fixes, and refactors across production financial systems in a regulated enterprise environment.",
+        "Worked within Git-based CI/CD workflows, peer review, and agile delivery practices on large shared codebases."
+      ]
+    },
+    {
+      "role": "Software Engineering Analyst Intern",
+      "company": "BlackRock",
+      "location": "San Francisco, CA (Remote)",
+      "date": "Jul 2020 - Aug 2020",
+      "bullets": [
+        "Helped deliver a cloud-ready MVP by migrating a monolithic Java desktop workflow toward modular web services and an Angular frontend.",
+        "Earned a full-time return offer based on internship performance."
+      ]
+    }
+  ],
+  "projects": {
+    "featured": [
+      {
+        "slug": "cloud-clips",
+        "bullets": [
+          "Built a serverless video platform with direct-to-S3 uploads, asynchronous transcoding, AI moderation, captions, and CDN delivery.",
+          "Automated end-to-end deployment with AWS CDK, Cloudflare-integrated DNS, and GitHub Actions OIDC CI/CD."
+        ]
+      },
+      {
+        "slug": "infrakit",
+        "bullets": [
+          "Built a production-style AWS infrastructure CLI with schema validation, dependency planning, rollback support, and S3/DynamoDB state locking.",
+          "Shipped the tool through multiple distribution paths with strong test coverage and reproducible release workflows."
+        ]
+      },
+      {
+        "slug": "lighthouse",
+        "bullets": [
+          "Implemented a Layer 4 load balancer in C++ with event-driven I/O, backend failover, and production-style metrics.",
+          "Used Linux systems tooling and low-level networking concepts to show depth beyond application-layer development."
+        ]
+      }
+    ],
+    "additional": [
+      "sentinelapi",
+      "conduit",
+      "resilientmesh",
+      "portfolio"
+    ]
+  },
+  "education": [
+    {
+      "degree": "M.S. Computer Science",
+      "school": "Georgia Southwestern State University",
+      "date": "2024 - 2025"
+    },
+    {
+      "degree": "B.S. Computer Science",
+      "school": "University of Illinois Chicago",
+      "date": "2017 - 2021",
+      "detail": "Teaching Assistant for Systems Programming; built a garbage collector in coursework and a minimal Unix-like OS with additional syscalls and shell utilities."
+    }
+  ],
+  "certifications": [
+    "AWS Certified Solutions Architect - Associate",
+    "AWS Certified Developer - Associate",
+    "AWS Certified SysOps Administrator - Associate"
+  ]
+}
